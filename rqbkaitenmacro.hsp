@@ -1,0 +1,4892 @@
+#module
+
+#defcfunc mod int a, int b
+	s=a
+	repeat 
+	if s<b:break
+	s-=b
+	loop
+	return s
+	
+#defcfunc pmod int a, int b
+	s=a
+	repeat
+	if s>b*100000:s-=b*100000
+	if s>b*10000:s-=b*10000
+	if s>b*1000:s-=b*1000
+	if s>b*100:s-=b*100
+	if s>b*10:s-=b*10
+	if s<b:break
+	s-=b
+	loop
+	return s
+	
+	
+#deffunc colorset int a
+	if a=0:color 255,255,255
+	if a=1:color 255,255,0
+	if a=2:color 0,0,255
+	if a=3:color 255,0,0
+	if a=4:color 0,255,255
+	if a=5:color 255,140,0
+	if a=6:color 0,220,0
+	if a=7:color 
+	if a=8:color 255,0,128
+	if a=9:color 50,50,50
+	return
+	
+	
+#deffunc rol array c,int x,int y,int z,int a,int b,int d
+//rol (いつものc), (全体なら0、partなら1),　(列番号), (順向きなら0、逆向きなら1)、(速度)、（描画範囲）,(timer)
+	
+	bunkatu=12
+	if a=3:bunjatu=10
+	if a=2:bunkatu=8
+	if a=1:bunkatu=1
+	
+	
+	x1=600,600,-600,-600
+	x2=600,-600,-600,600
+	x3=200,200,200,200
+	x4=-200,-200,-200,-200
+	
+	if (x=0)and(y=1)and(z=0):goto *all1_0
+	if (x=0)and(y=1)and(z=1):goto *all1_1
+	
+	if (x=0)and(y=2)and(z=0):goto *all2_0
+	if (x=0)and(y=2)and(z=1):goto *all2_1
+	
+	if (x=0)and(y=3)and(z=0):goto *all3_0
+	if (x=0)and(y=3)and(z=1):goto *all3_1
+	
+	if (x=1)and(y=1)and(z=0):goto *part1_0
+	if (x=1)and(y=1)and(z=1):goto *part1_1
+	
+	if (x=1)and(y=2)and(z=0):goto *part2_0
+	if (x=1)and(y=2)and(z=1):goto *part2_1
+	
+	if (x=1)and(y=3)and(z=0):goto *part3_0
+	if (x=1)and(y=3)and(z=1):goto *part3_1
+	
+	if (x=1)and(y=4)and(z=0):goto *part4_0
+	if (x=1)and(y=4)and(z=1):goto *part4_1
+	
+	if (x=1)and(y=5)and(z=0):goto *part5_0
+	if (x=1)and(y=5)and(z=1):goto *part5_1
+	
+	if (x=1)and(y=6)and(z=0):goto *part6_0
+	if (x=1)and(y=6)and(z=1):goto *part6_1
+	
+	if (x=1)and(y=7)and(z=0):goto *part7_0
+	if (x=1)and(y=7)and(z=1):goto *part7_1
+	
+	if (x=1)and(y=8)and(z=0):goto *part8_0
+	if (x=1)and(y=8)and(z=1):goto *part8_1
+	
+	if (x=1)and(y=9)and(z=0):goto *part9_0
+	if (x=1)and(y=9)and(z=1):goto *part9_1
+	
+	goto *rt
+	
+*all1_0
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	
+	
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, 1,0,0, 0,cos(p),sin(p), 0,-sin(p),cos(p)
+	
+	//左奥面
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600+400*k,-600,600, -200+400*k,-600,600
+	for i,0,3
+	colorset c(29+i*3-k)
+	d3ribbonto -600+400*k,-600,200-400*i, -200+400*k,-600,200-400*i
+	next
+	next
+	//左奥面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,-600,-600, -580+1191*k,-600,-600
+	d3ribbonto -601+1181*k,-600,600, -580+1191*k,-600,600
+	d3initlineto
+	d3ribbonto -220+400*k,-600,-600, -180+400*k,-600,-600
+	d3ribbonto -220+400*k,-600,600, -180+400*k,-600,600
+	d3initlineto
+	d3ribbonto -600,-600,-220+400*k, -600,-600,-180+400*k
+	d3ribbonto 600,-600,-220+400*k,600,-600,-180+400*k
+	d3initlineto
+	d3ribbonto -600,-600,-600+1180*k,-600,-600, -580+1180*k
+	d3ribbonto 600,-600,-600+1180*k,600,-600, -580+1180*k
+	next
+	//右手前面
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600+400*k,600,600, -200+400*k,600,600
+	for i,0,3
+	colorset c(9+i*3+k)
+	d3ribbonto -600+400*k,600,200-400*i, -200+400*k,600,200-400*i
+	next
+	next
+	//右手前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,600,-600, -580+1191*k,600,-600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,600,-600, -180+400*k,600,-600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,600,-220+400*k, -600,600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto -600,600,-600+1180*k,-600,600, -580+1180*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1180*k
+	next
+	
+	//上および左手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,-600+400*k,600, -600,-200+400*k,600
+	for i,0,3
+	colorset c(i+3*k)
+	d3ribbonto -200+400*i,-600+400*k,600,-200+400*i,-200+400*k,600
+	next
+	for i,0,3
+	colorset c(20+3*i-k)
+	d3ribbonto 600,-600+400*k,200-400*i,600,-200+400*k,200-400*i
+	next
+	next
+	//上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,-600,600, -580+1191*k,-600,600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,-600,600, -180+400*k,-600,600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,-220+400*k,600, -600,-180+400*k,600
+	d3ribbonto 600,-220+400*k,600,600,-180+400*k,600
+	d3initlineto
+	d3ribbonto -600,-600+1180*k,600,-600, -580+1180*k,600
+	d3ribbonto 600,-600+1180*k,600,600, -580+1180*k,600
+	next
+	//左前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+1181*k,-600, 600,-580+1191*k,-600
+	d3ribbonto 600,-601+1181*k,600, 600,-580+1191*k,600
+	d3initlineto
+	d3ribbonto 600,-220+400*k,-600, 600,-180+400*k,-600
+	d3ribbonto 600,-220+400*k,600, 600,-180+400*k,600
+	d3initlineto
+	d3ribbonto 600,-600,-220+400*k,600, -600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto 600,-600,-600+1180*k,600,-600, -580+1185*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1185*k
+	next
+	
+	
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+		
+	wait a
+	loop
+	
+	for i,0,9
+	e(i)=c(i)
+	c(i)=c(35-i)
+	c(35-i)=c(53-i)
+	c(53-i)=c(i+9)
+	c(i+9)=e(i)
+	next
+	e(0)=c(19)
+	c(19)=c(23)
+	c(23)=c(25)
+	c(25)=c(21)
+	c(21)=e(0)
+	e(0)=c(18)
+	c(18)=c(20)
+	c(20)=c(26)
+	c(26)=c(24)
+	c(24)=e(0)
+	
+	e(0)=c(38)
+	c(38)=c(36)
+	c(36)=c(42)
+	c(42)=c(44)
+	c(44)=e(0)
+	e(0)=c(37)
+	c(37)=c(39)
+	c(39)=c(43)
+	c(43)=c(41)
+	c(41)=e(0)
+	d3setlocal 0,0,0,1,0,0,0,1,0,0,0,1
+	goto *rt
+
+*all1_1
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, 1,0,0, 0,cos(p),-sin(p), 0,sin(p),cos(p)
+	//上
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,-600+400*k,600, -600,-200+400*k,600
+	for i,0,3
+	colorset c(i+3*k)
+	d3ribbonto -200+400*i,-600+400*k,600,-200+400*i,-200+400*k,600
+	next
+	next
+	//上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,-600,600, -580+1191*k,-600,600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,-600,600, -180+400*k,-600,600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,-220+400*k,600, -600,-180+400*k,600
+	d3ribbonto 600,-220+400*k,600,600,-180+400*k,600
+	d3initlineto
+	d3ribbonto -600,-600+1180*k,600,-600, -580+1180*k,600
+	d3ribbonto 600,-600+1180*k,600,600, -580+1180*k,600
+	next
+	//下
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,-600+400*k,-600, -600,-200+400*k,-600
+	for i,0,3
+	colorset c(47-i+3*k)
+	d3ribbonto -200+400*i,-600+400*k,-600,-200+400*i,-200+400*k,-600
+	next
+	next
+	//下の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,-600,-600, -580+1191*k,-600,-600
+	d3ribbonto -601+1181*k,600,-600, -580+1191*k,600,-600
+	d3initlineto
+	d3ribbonto -220+400*k,-600,-600, -180+400*k,-600,-600
+	d3ribbonto -220+400*k,600,-600, -180+400*k,600,-600
+	d3initlineto
+	d3ribbonto -600,-220+400*k,-600, -600,-180+400*k,-600
+	d3ribbonto 600,-220+400*k,-600,600,-180+400*k,-600
+	d3initlineto
+	d3ribbonto -600,-600+1180*k,-600,-600, -580+1180*k,-600
+	d3ribbonto 600,-600+1180*k,-600,600, -580+1180*k,-600
+	next
+	//左手前および右手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,600,600-400*k, -600,600,200-400*k
+	for i,0,3
+	colorset c(9+i+k*3)
+	d3ribbonto -200+400*i,600,600-400*k, -200+400*i,600,200-400*k
+	next
+	for i,0,3
+	colorset c(18+i+k*3)
+	d3ribbonto 600,200-400*i,600-400*k, 600,200-400*i,200-400*k
+	next
+	next
+	//右手前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,600,-600, -580+1191*k,600,-600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,600,-600, -180+400*k,600,-600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,600,-220+400*k, -600,600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto -600,600,-600+1180*k,-600,600, -580+1180*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1180*k
+	next
+	//左前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+1181*k,-600, 600,-580+1191*k,-600
+	d3ribbonto 600,-601+1181*k,600, 600,-580+1191*k,600
+	d3initlineto
+	d3ribbonto 600,-220+400*k,-600, 600,-180+400*k,-600
+	d3ribbonto 600,-220+400*k,600, 600,-180+400*k,600
+	d3initlineto
+	d3ribbonto 600,-600,-220+400*k,600, -600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto 600,-600,-600+1180*k,600,-600, -580+1185*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1185*k
+	next
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	
+	for i,0,9
+	e(i)=c(i)
+	c(i)=c(i+9)
+	c(i+9)=c(53-i)
+	c(53-i)=c(35-i)
+	c(35-i)=e(i)
+	next
+	e(0)=c(18)
+	c(18)=c(24)
+	c(24)=c(26)
+	c(26)=c(20)
+	c(20)=e(0)
+	e(0)=c(19)
+	c(19)=c(21)
+	c(21)=c(25)
+	c(25)=c(23)
+	c(23)=e(0)
+	
+	e(0)=c(38)
+	c(38)=c(44)
+	c(44)=c(42)
+	c(42)=c(36)
+	c(36)=e(0)
+	e(0)=c(37)
+	c(37)=c(41)
+	c(41)=c(43)
+	c(43)=c(39)
+	c(39)=e(0)
+	d3setlocal 0,0,0,1,0,0,0,1,0,0,0,1
+	goto *rt
+	
+*all2_0
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, cos(p),0,-sin(p),0,1,0, sin(p),0,cos(p)
+	
+	//上
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,-600+400*k,600, -600,-200+400*k,600
+	for i,0,3
+	colorset c(i+k*3)
+	d3ribbonto -200+400*i,-600+400*k,600, -200+400*i,-200+400*k,600
+	next
+	next
+	//上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,-600,600, -580+1191*k,-600,600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,-600,600, -180+400*k,-600,600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,-220+400*k,600, -600,-180+400*k,600
+	d3ribbonto 600,-220+400*k,600,600,-180+400*k,600
+	d3initlineto
+	d3ribbonto -600,-600+1180*k,600,-600, -580+1180*k,600
+	d3ribbonto 600,-600+1180*k,600,600, -580+1180*k,600
+	next
+	//下
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,-600+400*k,-600, -600,-200+400*k,-600
+	for i,0,3
+	colorset c(47-i+k*3)
+	d3ribbonto -200+400*i,-600+400*k,-600, -200+400*i,-200+400*k,-600
+	next
+	next
+	//下の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,-600,-600, -580+1191*k,-600,-600
+	d3ribbonto -601+1181*k,600,-600, -580+1191*k,600,-600
+	d3initlineto
+	d3ribbonto -220+400*k,-600,-600, -180+400*k,-600,-600
+	d3ribbonto -220+400*k,600,-600, -180+400*k,600,-600
+	d3initlineto
+	d3ribbonto -600,-220+400*k,-600, -600,-180+400*k,-600
+	d3ribbonto 600,-220+400*k,-600,600,-180+400*k,-600
+	d3initlineto
+	d3ribbonto -600,-600+1180*k,-600,-600, -580+1180*k,-600
+	d3ribbonto 600,-600+1180*k,-600,600, -580+1180*k,-600
+	next
+	//右手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,600,600-400*k, -600,600,200-400*k
+	for i,0,3
+	colorset c(9+i+k*3)
+	d3ribbonto -200+400*i,600,600-400*k, -200+400*i,600,200-400*k
+	next
+	next
+	
+	//左手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto 600,600-400*k,600, 600,200-400*k,600
+	for i,0,3
+	colorset c(18+i*3+k)
+	d3ribbonto 600,600-400*k,200-400*i, 600,200-400*k,200-400*i
+	next
+	next
+	//右手前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,600,-600, -580+1191*k,600,-600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,600,-600, -180+400*k,600,-600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,600,-220+400*k, -600,600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto -600,600,-600+1180*k,-600,600, -580+1180*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1180*k
+	next
+	//左前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+1181*k,-600, 600,-580+1191*k,-600
+	d3ribbonto 600,-601+1181*k,600, 600,-580+1191*k,600
+	d3initlineto
+	d3ribbonto 600,-220+400*k,-600, 600,-180+400*k,-600
+	d3ribbonto 600,-220+400*k,600, 600,-180+400*k,600
+	d3initlineto
+	d3ribbonto 600,-600,-220+400*k,600, -600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto 600,-600,-600+1180*k,600,-600, -580+1185*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1185*k
+	next
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	
+	for i,0,3
+	e(i)=c(i+6)
+	c(i+6)=c(18+3*i)
+	c(18+3*i)=c(51+i)
+	c(51+i)=c(44-3*i)
+	c(44-3*i)=e(i)
+	next
+	for i,0,3
+	e(i)=c(i+3)
+	c(i+3)=c(19+3*i)
+	c(19+3*i)=c(48+i)
+	c(48+i)=c(43-3*i)
+	c(43-3*i)=e(i)
+	next
+	for i,0,3
+	e(i)=c(i)
+	c(i)=c(20+3*i)
+	c(20+3*i)=c(45+i)
+	c(45+i)=c(42-3*i)
+	c(42-3*i)=e(i)
+	next
+	e(0)=c(9)
+	c(9)=c(11)
+	c(11)=c(17)
+	c(17)=c(15)
+	c(15)=e(0)
+	e(0)=c(10)
+	c(10)=c(14)
+	c(14)=c(16)
+	c(16)=c(12)
+	c(12)=e(0)
+	
+	e(0)=c(29)
+	c(29)=c(27)
+	c(27)=c(33)
+	c(33)=c(35)
+	c(35)=e(0)
+	e(0)=c(28)
+	c(28)=c(30)
+	c(30)=c(34)
+	c(34)=c(32)
+	c(32)=e(0)
+	d3setlocal 0,0,0,1,0,0,0,1,0,0,0,1
+	goto *rt
+
+*all2_1
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, cos(p),0,sin(p),0,1,0, -sin(p),0,cos(p)
+	
+	//右奥
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,600-400*k,600, -600,200-400*k,600
+	for i,0,3
+	colorset c(38+i*3-k)
+	d3ribbonto -600,600-400*k,200-400*i, -600,200-400*k,200-400*i
+	next
+	next
+	//右奥面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-601+1181*k,-600, -600,-580+1191*k,-600
+	d3ribbonto -600,-601+1181*k,600, -600,-580+1191*k,600
+	d3initlineto
+	d3ribbonto -600,-220+400*k,-600, -600,-180+400*k,-600
+	d3ribbonto -600,-220+400*k,600, -600,-180+400*k,600
+	d3initlineto
+	d3ribbonto -600,-600,-220+400*k,-600, -600,-180+400*k
+	d3ribbonto -600,600,-220+400*k,-600,600,-180+400*k
+	d3initlineto
+	d3ribbonto -600,-600,-600+1180*k,-600,-600, -580+1180*k
+	d3ribbonto -600,600,-600+1180*k,-600,600, -580+1180*k
+	next
+	//左手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto 600,600-400*k,600, 600,200-400*k,600
+	for i,0,3
+	colorset c(18+i*3+k)
+	d3ribbonto 600,600-400*k,200-400*i, 600,200-400*k,200-400*i
+	next
+	next
+	//左前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+1181*k,-600, 600,-580+1191*k,-600
+	d3ribbonto 600,-601+1181*k,600, 600,-580+1191*k,600
+	d3initlineto
+	d3ribbonto 600,-220+400*k,-600, 600,-180+400*k,-600
+	d3ribbonto 600,-220+400*k,600, 600,-180+400*k,600
+	d3initlineto
+	d3ribbonto 600,-600,-220+400*k,600, -600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto 600,-600,-600+1180*k,600,-600, -580+1185*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1185*k
+	next
+	//上
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,-600+400*k,600, -600,-200+400*k,600
+	for i,0,3
+	colorset c(i+k*3)
+	d3ribbonto -200+400*i,-600+400*k,600, -200+400*i,-200+400*k,600
+	next
+	next
+	//右手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,600,600-400*k, -600,600,200-400*k
+	for i,0,3
+	colorset c(9+i+k*3)
+	d3ribbonto -200+400*i,600,600-400*k, -200+400*i,600,200-400*k
+	next
+	next
+	//上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,-600,600, -580+1191*k,-600,600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,-600,600, -180+400*k,-600,600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,-220+400*k,600, -600,-180+400*k,600
+	d3ribbonto 600,-220+400*k,600,600,-180+400*k,600
+	d3initlineto
+	d3ribbonto -600,-600+1180*k,600,-600, -580+1180*k,600
+	d3ribbonto 600,-600+1180*k,600,600, -580+1180*k,600
+	next
+	//右手前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,600,-600, -580+1191*k,600,-600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,600,-600, -180+400*k,600,-600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,600,-220+400*k, -600,600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto -600,600,-600+1180*k,-600,600, -580+1180*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1180*k
+	next
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	
+	for i,0,3
+	e(i)=c(i)
+	c(i)=c(42-3*i)
+	c(42-3*i)=c(45+i)
+	c(45+i)=c(20+3*i)
+	c(20+3*i)=e(i)
+	next
+	for i,0,3
+	e(i)=c(i+3)
+	c(i+3)=c(43-3*i)
+	c(43-3*i)=c(48+i)
+	c(48+i)=c(19+3*i)
+	c(19+3*i)=e(i)
+	next
+	for i,0,3
+	e(i)=c(i+6)
+	c(i+6)=c(44-3*i)
+	c(44-3*i)=c(51+i)
+	c(51+i)=c(18+3*i)
+	c(18+3*i)=e(i)
+	next
+	e(0)=c(9)
+	c(9)=c(15)
+	c(15)=c(17)
+	c(17)=c(11)
+	c(11)=e(0)
+	e(0)=c(10)
+	c(10)=c(12)
+	c(12)=c(16)
+	c(16)=c(14)
+	c(14)=e(0)
+	
+	e(0)=c(29)
+	c(29)=c(35)
+	c(35)=c(33)
+	c(33)=c(27)
+	c(27)=e(0)
+	e(0)=c(28)
+	c(28)=c(32)
+	c(32)=c(34)
+	c(34)=c(30)
+	c(30)=e(0)
+	d3setlocal 0,0,0,1,0,0,0,1,0,0,0,1
+	goto *rt
+	
+*all3_0
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, cos(p),-sin(p),0, sin(p),cos(p),0, 0,0,1
+	
+	//右手前面
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600+400*k,600,600, -200+400*k,600,600
+	for i,0,3
+	colorset c(9+i*3+k)
+	d3ribbonto -600+400*k,600,200-400*i, -200+400*k,600,200-400*i
+	next
+	next
+	//右手前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,600,-600, -580+1191*k,600,-600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,600,-600, -180+400*k,600,-600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,600,-220+400*k, -600,600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto -600,600,-600+1180*k,-600,600, -580+1180*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1180*k
+	next
+	
+	//左奥面
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600+400*k,-600,600, -200+400*k,-600,600
+	for i,0,3
+	colorset c(29+i*3-k)
+	d3ribbonto -600+400*k,-600,200-400*i, -200+400*k,-600,200-400*i
+	next
+	next
+	//左奥面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,-600,-600, -580+1191*k,-600,-600
+	d3ribbonto -601+1181*k,-600,600, -580+1191*k,-600,600
+	d3initlineto
+	d3ribbonto -220+400*k,-600,-600, -180+400*k,-600,-600
+	d3ribbonto -220+400*k,-600,600, -180+400*k,-600,600
+	d3initlineto
+	d3ribbonto -600,-600,-220+400*k, -600,-600,-180+400*k
+	d3ribbonto 600,-600,-220+400*k,600,-600,-180+400*k
+	d3initlineto
+	d3ribbonto -600,-600,-600+1180*k,-600,-600, -580+1180*k
+	d3ribbonto 600,-600,-600+1180*k,600,-600, -580+1180*k
+	next
+	
+	//上および左手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,-600+400*k,600, -600,-200+400*k,600
+	for i,0,3
+	colorset c(i+3*k)
+	d3ribbonto -200+400*i,-600+400*k,600,-200+400*i,-200+400*k,600
+	next
+	for i,0,3
+	colorset c(20+3*i-k)
+	d3ribbonto 600,-600+400*k,200-400*i,600,-200+400*k,200-400*i
+	next
+	next
+	//上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,-600,600, -580+1191*k,-600,600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,-600,600, -180+400*k,-600,600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,-220+400*k,600, -600,-180+400*k,600
+	d3ribbonto 600,-220+400*k,600,600,-180+400*k,600
+	d3initlineto
+	d3ribbonto -600,-600+1180*k,600,-600, -580+1180*k,600
+	d3ribbonto 600,-600+1180*k,600,600, -580+1180*k,600
+	next
+	//左前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+1181*k,-600, 600,-580+1191*k,-600
+	d3ribbonto 600,-601+1181*k,600, 600,-580+1191*k,600
+	d3initlineto
+	d3ribbonto 600,-220+400*k,-600, 600,-180+400*k,-600
+	d3ribbonto 600,-220+400*k,600, 600,-180+400*k,600
+	d3initlineto
+	d3ribbonto 600,-600,-220+400*k,600, -600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto 600,-600,-600+1180*k,600,-600, -580+1185*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1185*k
+	next
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	
+	for i,0,9
+	e(i)=c(i+9)
+	c(i+9)=c(i+18)
+	c(i+18)=c(i+27)
+	c(i+27)=c(i+36)
+	c(i+36)=e(i)
+	next
+	e(0)=c(0)
+	c(0)=c(6)
+	c(6)=c(8)
+	c(8)=c(2)
+	c(2)=e(0)
+	e(0)=c(1)
+	c(1)=c(3)
+	c(3)=c(7)
+	c(7)=c(5)
+	c(5)=e(0)
+	e(0)=c(47)
+	c(47)=c(53)
+	c(53)=c(51)
+	c(51)=c(45)
+	c(45)=e(0)
+	e(0)=c(46)
+	c(46)=c(50)
+	c(50)=c(52)
+	c(52)=c(48)
+	c(48)=e(0)
+	d3setlocal 0,0,0,1,0,0,0,1,0,0,0,1
+	goto *rt
+	
+*all3_1
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, cos(p),sin(p),0, -sin(p),cos(p),0, 0,0,1
+	
+	//左手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto 600,600-400*k,600, 600,200-400*k,600
+	for i,0,3
+	colorset c(18+i*3+k)
+	d3ribbonto 600,600-400*k,200-400*i, 600,200-400*k,200-400*i
+	next
+	next
+	//左前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+1181*k,-600, 600,-580+1191*k,-600
+	d3ribbonto 600,-601+1181*k,600, 600,-580+1191*k,600
+	d3initlineto
+	d3ribbonto 600,-220+400*k,-600, 600,-180+400*k,-600
+	d3ribbonto 600,-220+400*k,600, 600,-180+400*k,600
+	d3initlineto
+	d3ribbonto 600,-600,-220+400*k,600, -600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto 600,-600,-600+1180*k,600,-600, -580+1185*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1185*k
+	next
+	//右奥
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,-600+400*k,600, -600,-200+400*k,600
+	for i,0,3
+	colorset c(36+i*3+k)
+	d3ribbonto -600,-600+400*k,200-400*i, -600,-200+400*k,200-400*i
+	next
+	next
+	//右奥面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-601+1181*k,-600, -600,-580+1191*k,-600
+	d3ribbonto -600,-601+1181*k,600, -600,-580+1191*k,600
+	d3initlineto
+	d3ribbonto -600,-220+400*k,-600, -600,-180+400*k,-600
+	d3ribbonto -600,-220+400*k,600, -600,-180+400*k,600
+	d3initlineto
+	d3ribbonto -600,-600,-220+400*k,-600, -600,-180+400*k
+	d3ribbonto -600,600,-220+400*k,-600,600,-180+400*k
+	d3initlineto
+	d3ribbonto -600,-600,-600+1180*k,-600,-600, -580+1180*k
+	d3ribbonto -600,600,-600+1180*k,-600,600, -580+1180*k
+	next
+	//上および右手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600+400*k,-600,600, -200+400*k,-600,600
+	for i,0,3
+	colorset c(i*3+k)
+	d3ribbonto -600+400*k,-200+400*i,600, -200+400*k,-200+400*i,600
+	next
+	for i,0,3
+	colorset c(9+3*i+k)
+	d3ribbonto -600+400*k,600,200-400*i, -200+400*k,600,200-400*i
+	next
+	next
+	//上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,-600,600, -580+1191*k,-600,600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,-600,600, -180+400*k,-600,600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,-220+400*k,600, -600,-180+400*k,600
+	d3ribbonto 600,-220+400*k,600,600,-180+400*k,600
+	d3initlineto
+	d3ribbonto -600,-600+1180*k,600,-600, -580+1180*k,600
+	d3ribbonto 600,-600+1180*k,600,600, -580+1180*k,600
+	next
+	//右手前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,600,-600, -580+1191*k,600,-600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,600,-600, -180+400*k,600,-600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,600,-220+400*k, -600,600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto -600,600,-600+1180*k,-600,600, -580+1180*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1180*k
+	next
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	
+	for i,0,9
+	e(i)=c(i+9)
+	c(i+9)=c(36+i)
+	c(36+i)=c(27+i)
+	c(27+i)=c(18+i)
+	c(18+i)=e(i)
+	next
+	
+	e(0)=c(0)
+	c(0)=c(2)
+	c(2)=c(8)
+	c(8)=c(6)
+	c(6)=e(0)
+	e(0)=c(1)
+	c(1)=c(5)
+	c(5)=c(7)
+	c(7)=c(3)
+	c(3)=e(0)
+	
+	e(0)=c(47)
+	c(47)=c(45)
+	c(45)=c(51)
+	c(51)=c(53)
+	c(53)=e(0)
+	e(0)=c(46)
+	c(46)=c(48)
+	c(48)=c(52)
+	c(52)=c(50)
+	c(50)=e(0)
+	d3setlocal 0,0,0,1,0,0,0,1,0,0,0,1
+	goto *rt
+	
+
+	
+*part1_0
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+	//上および右手前の第２，３列
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600+400*k,-600,600, -200+400*k,-600,600
+	for i,0,3
+	colorset c(i*3+k)
+	d3ribbonto -600+400*k,-200+400*i,600, -200+400*k,-200+400*i,600
+	next
+	for i,0,3
+	colorset c(9+3*i+k)
+	d3ribbonto -600+400*k,600,200-400*i, -200+400*k,600,200-400*i
+	next
+	next
+	//3上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+380*k,-600,600, -580+380*k,-600,600
+	d3ribbonto -601+380*k,600,600, -580+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600,-600+380*k+400*i,600,-600,-580+380*k+400*i,600
+	d3ribbonto -200,-600+380*k+400*i,600,-200,-580+380*k+400*i,600
+	next
+	next
+	//2上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -200+380*k,-600,600, -180+380*k,-600,600
+	d3ribbonto -200+380*k,600,600, -180+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 200,-600+380*k+400*i,600,200,-580+380*k+400*i,600
+	d3ribbonto -200,-600+380*k+400*i,600,-200,-580+380*k+400*i,600
+	next
+	next
+	//3前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+380*k,600,-600, -580+380*k,600,-600
+	d3ribbonto -601+380*k,600,600, -580+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -200,600,-600+380*k+400*i,-200,600,-580+380*k+400*i
+	d3ribbonto -600,600,-600+380*k+400*i,-600,600,-580+380*k+400*i
+	next
+	next
+	
+	//2前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -200+380*k,600,-600, -180+380*k,600,-600
+	d3ribbonto -200+380*k,600,600, -180+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -200,600,-600+380*k+400*i,-200,600,-580+380*k+400*i
+	d3ribbonto 200,600,-600+380*k+400*i,200,600,-580+380*k+400*i
+	next
+	next
+	
+	color 20,20,20
+	d3square x3,x1,x2
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, 1,0,0, 0,cos(p),sin(p), 0,-sin(p),cos(p)
+	
+	color 20,20,20
+	d3square x3,x1,x2
+	
+	//1奥
+	d3initlineto
+	d3ribbonto 600,-600,600, 200,-600,600
+	for i,0,3
+	colorset c(27+i*3)
+	d3ribbonto 600,-600,200-400*i, 200,-600,200-400*i
+	next
+	//1奥の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 200+380*k,-600,-600, 220+380*k,-600,-600
+	d3ribbonto 200+380*k,-600,600, 220+380*k,-600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600,-600+380*k+400*i,600,-600,-580+380*k+400*i
+	d3ribbonto 200,-600,-600+380*k+400*i,200,-600,-580+380*k+400*i
+	next
+	//1手前
+	next
+	d3initlineto
+	d3ribbonto 600,600,600, 200,600,600
+	for i,0,3
+	colorset c(11+i*3)
+	d3ribbonto 600,600,200-400*i, 200,600,200-400*i
+	next
+	//1前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 200+380*k,600,-600, 220+380*k,600,-600
+	d3ribbonto 200+380*k,600,600, 220+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,600,-600+380*k+400*i,600,600,-580+380*k+400*i
+	d3ribbonto 200,600,-600+380*k+400*i,200,600,-580+380*k+400*i
+	next
+	next
+	
+	//1上
+	d3initlineto
+	d3ribbonto 600,-600,600, 200,-600,600
+	for i,0,3
+	colorset c(2+i*3)
+	d3ribbonto 600,-200+400*i,600, 200,-200+400*i,600
+	next
+	//1上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 198+382*k,-600,600, 220+380*k,-600,600
+	d3ribbonto 198+382*k,600,600, 220+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 200,-600+380*k+400*i,600,200,-580+380*k+400*i,600
+	d3ribbonto 600,-600+380*k+400*i,600,600,-580+380*k+400*i,600
+	next
+	next
+	
+	//左手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto 600,600-400*k,600, 600,200-400*k,600
+	for i,0,3
+	colorset c(18+i*3+k)
+	d3ribbonto 600,600-400*k,200-400*i, 600,200-400*k,200-400*i
+	next
+	next
+	//左前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+1181*k,-600, 600,-580+1191*k,-600
+	d3ribbonto 600,-601+1181*k,600, 600,-580+1191*k,600
+	d3initlineto
+	d3ribbonto 600,-220+400*k,-600, 600,-180+400*k,-600
+	d3ribbonto 600,-220+400*k,600, 600,-180+400*k,600
+	d3initlineto
+	d3ribbonto 600,-600,-220+400*k,600, -600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto 600,-600,-600+1180*k,600,-600, -580+1185*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1185*k
+	next
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+	for i,0,3
+	e(i)=c(3*i+2)
+	c(3*i+2)=c(33-3*i)
+	c(33-3*i)=c(51-3*i)
+	c(51-3*i)=c(11+3*i)
+	c(11+3*i)=e(i)
+	next
+	e(0)=c(19)
+	c(19)=c(23)
+	c(23)=c(25)
+	c(25)=c(21)
+	c(21)=e(0)
+	e(0)=c(18)
+	c(18)=c(20)
+	c(20)=c(26)
+	c(26)=c(24)
+	c(24)=e(0)
+	goto *rt
+	
+*part1_1
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+	//上および右手前の第２，３列
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600+400*k,-600,600, -200+400*k,-600,600
+	for i,0,3
+	colorset c(i*3+k)
+	d3ribbonto -600+400*k,-200+400*i,600, -200+400*k,-200+400*i,600
+	next
+	for i,0,3
+	colorset c(9+3*i+k)
+	d3ribbonto -600+400*k,600,200-400*i, -200+400*k,600,200-400*i
+	next
+	next
+	
+	//3上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+380*k,-600,600, -580+380*k,-600,600
+	d3ribbonto -601+380*k,600,600, -580+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600,-600+380*k+400*i,600,-600,-580+380*k+400*i,600
+	d3ribbonto -200,-600+380*k+400*i,600,-200,-580+380*k+400*i,600
+	next
+	next
+	//2上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -200+380*k,-600,600, -180+380*k,-600,600
+	d3ribbonto -200+380*k,600,600, -180+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 200,-600+380*k+400*i,600,200,-580+380*k+400*i,600
+	d3ribbonto -200,-600+380*k+400*i,600,-200,-580+380*k+400*i,600
+	next
+	next
+	//3前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+380*k,600,-600, -580+380*k,600,-600
+	d3ribbonto -601+380*k,600,600, -580+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -200,600,-600+380*k+400*i,-200,600,-580+380*k+400*i
+	d3ribbonto -600,600,-600+380*k+400*i,-600,600,-580+380*k+400*i
+	next
+	next
+	
+	//2前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -200+380*k,600,-600, -180+380*k,600,-600
+	d3ribbonto -200+380*k,600,600, -180+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -200,600,-600+380*k+400*i,-200,600,-580+380*k+400*i
+	d3ribbonto 200,600,-600+380*k+400*i,200,600,-580+380*k+400*i
+	next
+	next
+	
+	color
+	d3square x3,x1,x2
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, 1,0,0, 0,cos(p),-sin(p), 0,sin(p),cos(p)
+	
+	d3initlineto
+	d3ribbonto 600,-600,600, 200,-600,600
+	for i,0,3
+	colorset c(2+i*3)
+	d3ribbonto 600,-200+400*i,600, 200,-200+400*i,600
+	next
+	//1上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 200+380*k,-600,600, 220+380*k,-600,600
+	d3ribbonto 200+380*k,600,600, 220+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 200,-600+380*k+400*i,600,200,-580+380*k+400*i,600
+	d3ribbonto 600,-600+380*k+400*i,600,600,-580+380*k+400*i,600
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto 600,-600,-600, 200,-600,-600
+	for i,0,3
+	colorset c(45+i*3)
+	d3ribbonto 600,-200+400*i,-600, 200,-200+400*i,-600
+	next
+	//1下の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 200+380*k,-600,-600, 220+380*k,-600,-600
+	d3ribbonto 200+380*k,600,-600, 220+380*k,600,-600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 200,-600+380*k+400*i,-600,200,-580+380*k+400*i,-600
+	d3ribbonto 600,-600+380*k+400*i,-600,600,-580+380*k+400*i,-600
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto 600,600,600, 200,600,600
+	for i,0,3
+	colorset c(11+i*3)
+	d3ribbonto 600,600,200-400*i, 200,600,200-400*i
+	next
+	//1前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 200+380*k,600,-600, 220+380*k,600,-600
+	d3ribbonto 200+380*k,600,600, 220+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,600,-600+380*k+400*i,600,600,-580+380*k+400*i
+	d3ribbonto 200,600,-600+380*k+400*i,200,600,-580+380*k+400*i
+	next
+	next
+	
+	//左手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto 600,600-400*k,600, 600,200-400*k,600
+	for i,0,3
+	colorset c(18+i*3+k)
+	d3ribbonto 600,600-400*k,200-400*i, 600,200-400*k,200-400*i
+	next
+	next
+	//左前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+1181*k,-600, 600,-580+1191*k,-600
+	d3ribbonto 600,-601+1181*k,600, 600,-580+1191*k,600
+	d3initlineto
+	d3ribbonto 600,-220+400*k,-600, 600,-180+400*k,-600
+	d3ribbonto 600,-220+400*k,600, 600,-180+400*k,600
+	d3initlineto
+	d3ribbonto 600,-600,-220+400*k,600, -600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto 600,-600,-600+1180*k,600,-600, -580+1185*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1185*k
+	next
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+	for i,0,3
+	e(i)=c(3*i+2)
+	c(3*i+2)=c(11+3*i)
+	c(11+3*i)=c(51-3*i)
+	c(51-3*i)=c(33-3*i)
+	c(33-3*i)=e(i)
+	next
+	e(0)=c(19)
+	c(19)=c(21)
+	c(21)=c(25)
+	c(25)=c(23)
+	c(23)=e(0)
+	e(0)=c(18)
+	c(18)=c(24)
+	c(24)=c(26)
+	c(26)=c(20)
+	c(20)=e(0)
+	goto *rt
+	
+*part2_0
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+
+	d3initlineto
+	d3ribbonto -600,-600,600, -200,-600,600
+	for i,0,3
+	colorset c(i*3)
+	d3ribbonto -600,-200+400*i,600, -200,-200+400*i,600
+	next
+	for i,0,3
+	colorset c(9+3*i)
+	d3ribbonto -600,600,200-400*i, -200,600,200-400*i
+	next
+	//3上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+380*k,-600,600, -580+380*k,-600,600
+	d3ribbonto -601+380*k,600,600, -580+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600,-600+380*k+400*i,600,-600,-580+380*k+400*i,600
+	d3ribbonto -200,-600+380*k+400*i,600,-200,-580+380*k+400*i,600
+	next
+	next
+	//3前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+380*k,600,-600, -580+380*k,600,-600
+	d3ribbonto -601+380*k,600,600, -580+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -200,600,-600+380*k+400*i,-200,600,-580+380*k+400*i
+	d3ribbonto -600,600,-600+380*k+400*i,-600,600,-580+380*k+400*i
+	next
+	next
+	
+	color 20,20,20
+	d3square x4,x1,x2
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, 1,0,0, 0,cos(p),sin(p), 0,-sin(p),cos(p)
+	
+	d3initlineto
+	d3ribbonto 200,-600,600, -200,-600,600
+	for i,0,3
+	colorset c(28+i*3)
+	d3ribbonto 200,-600,200-400*i, -200,-600,200-400*i
+	next
+	//2奥の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -200+380*k,-600,-600, -180+380*k,-600,-600
+	d3ribbonto -200+380*k,-600,600, -180+380*k,-600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -200,-600,-600+380*k+400*i,-200,-600,-580+380*k+400*i
+	d3ribbonto 200,-600,-600+380*k+400*i,200,-600,-580+380*k+400*i
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -200,600,600, 200,600,600
+	for i,0,3
+	colorset c(10+i*3)
+	d3ribbonto -200,600,200-400*i, 200,600,200-400*i
+	next
+	//2前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -200+380*k,600,-600, -180+380*k,600,-600
+	d3ribbonto -200+380*k,600,600, -180+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -200,600,-600+380*k+400*i,-200,600,-580+380*k+400*i
+	d3ribbonto 200,600,-600+380*k+400*i,200,600,-580+380*k+400*i
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -200,-600,600, 200,-600,600
+	for i,0,3
+	colorset c(1+i*3)
+	d3ribbonto -200,-200+400*i,600, 200,-200+400*i,600
+	next
+	//2上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -200+380*k,-600,600, -180+380*k,-600,600
+	d3ribbonto -200+380*k,600,600, -180+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 200,-600+380*k+400*i,600,200,-580+380*k+400*i,600
+	d3ribbonto -200,-600+380*k+400*i,600,-200,-580+380*k+400*i,600
+	next
+	next
+	
+	color 20,20,20
+	d3square x3,x1,x2
+	
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+
+	d3initlineto
+	d3ribbonto 600,-600,600, 200,-600,600
+	for i,0,3
+	colorset c(2+i*3)
+	d3ribbonto 600,-200+400*i,600, 200,-200+400*i,600
+	next
+	for i,0,3
+	colorset c(11+3*i)
+	d3ribbonto 600,600,200-400*i, 200,600,200-400*i
+	next
+	//1上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 195+385*k,-600,600, 220+385*k,-600,600
+	d3ribbonto 195+385*k,600,600, 220+385*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 200,-600+380*k+400*i,600,200,-580+380*k+400*i,600
+	d3ribbonto 600,-600+380*k+400*i,600,600,-580+380*k+400*i,600
+	next
+	next
+	
+	
+	
+	//1前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 200+380*k,600,-600, 220+380*k,600,-600
+	d3ribbonto 200+380*k,600,600, 220+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,600,-600+380*k+400*i,600,600,-580+380*k+400*i
+	d3ribbonto 200,600,-600+380*k+400*i,200,600,-580+380*k+400*i
+	next
+	next
+	//左手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto 600,600-400*k,600, 600,200-400*k,600
+	for i,0,3
+	colorset c(18+i*3+k)
+	d3ribbonto 600,600-400*k,200-400*i, 600,200-400*k,200-400*i
+	next
+	next
+	//左前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+1181*k,-600, 600,-580+1191*k,-600
+	d3ribbonto 600,-601+1181*k,600, 600,-580+1191*k,600
+	d3initlineto
+	d3ribbonto 600,-220+400*k,-600, 600,-180+400*k,-600
+	d3ribbonto 600,-220+400*k,600, 600,-180+400*k,600
+	d3initlineto
+	d3ribbonto 600,-600,-220+400*k,600, -600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto 600,-600,-600+1180*k,600,-600, -580+1185*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1185*k
+	next
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	
+	for i,0,3
+	e(i)=c(3*i+1)
+	c(3*i+1)=c(34-3*i)
+	c(34-3*i)=c(52-3*i)
+	c(52-3*i)=c(10+3*i)
+	c(10+3*i)=e(i)
+	next
+	goto *rt
+	
+*part2_1
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+
+	d3initlineto
+	d3ribbonto -600,-600,600, -200,-600,600
+	for i,0,3
+	colorset c(i*3)
+	d3ribbonto -600,-200+400*i,600, -200,-200+400*i,600
+	next
+	for i,0,3
+	colorset c(9+3*i)
+	d3ribbonto -600,600,200-400*i, -200,600,200-400*i
+	next
+	//3前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+380*k,600,-600, -580+380*k,600,-600
+	d3ribbonto -601+380*k,600,600, -580+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -200,600,-600+380*k+400*i,-200,600,-580+380*k+400*i
+	d3ribbonto -600,600,-600+380*k+400*i,-600,600,-580+380*k+400*i
+	next
+	next
+	//3上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+380*k,-600,600, -580+380*k,-600,600
+	d3ribbonto -601+380*k,600,600, -580+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600,-600+380*k+400*i,600,-600,-580+380*k+400*i,600
+	d3ribbonto -200,-600+380*k+400*i,600,-200,-580+380*k+400*i,600
+	next
+	next
+	
+	color
+	d3square x4,x1,x2
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, 1,0,0, 0,cos(p),-sin(p), 0,sin(p),cos(p)
+	
+	d3initlineto
+	d3ribbonto -200,-600,600, 200,-600,600
+	for i,0,3
+	colorset c(1+i*3)
+	d3ribbonto -200,-200+400*i,600, 200,-200+400*i,600
+	next
+	//2上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -200+380*k,-600,600, -180+380*k,-600,600
+	d3ribbonto -200+380*k,600,600, -180+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 200,-600+380*k+400*i,600,200,-580+380*k+400*i,600
+	d3ribbonto -200,-600+380*k+400*i,600,-200,-580+380*k+400*i,600
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -200,-600,-600, 200,-600,-600
+	for i,0,3
+	colorset c(46+i*3)
+	d3ribbonto -200,-200+400*i,-600, 200,-200+400*i,-600
+	next
+	//2下の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -200+380*k,-600,-600, -180+380*k,-600,-600
+	d3ribbonto -200+380*k,600,-600, -180+380*k,600,-600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 200,-600+380*k+400*i,-600,200,-580+380*k+400*i,-600
+	d3ribbonto -200,-600+380*k+400*i,-600,-200,-580+380*k+400*i,-600
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -200,600,600, 200,600,600
+	for i,0,3
+	colorset c(10+i*3)
+	d3ribbonto -200,600,200-400*i, 200,600,200-400*i
+	next
+	//2前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -200+380*k,600,-600, -180+380*k,600,-600
+	d3ribbonto -200+380*k,600,600, -180+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -200,600,-600+380*k+400*i,-200,600,-580+380*k+400*i
+	d3ribbonto 200,600,-600+380*k+400*i,200,600,-580+380*k+400*i
+	next
+	next
+	
+	color
+	d3square x3,x1,x2
+	
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+
+	d3initlineto
+	d3ribbonto 600,-600,600, 200,-600,600
+	for i,0,3
+	colorset c(2+i*3)
+	d3ribbonto 600,-200+400*i,600, 200,-200+400*i,600
+	next
+	for i,0,3
+	colorset c(11+3*i)
+	d3ribbonto 600,600,200-400*i, 200,600,200-400*i
+	next
+	//1上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 200+380*k,-600,600, 220+380*k,-600,600
+	d3ribbonto 200+380*k,600,600, 220+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 200,-600+380*k+400*i,600,200,-580+380*k+400*i,600
+	d3ribbonto 600,-600+380*k+400*i,600,600,-580+380*k+400*i,600
+	next
+	next
+	//1前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 200+380*k,600,-600, 220+380*k,600,-600
+	d3ribbonto 200+380*k,600,600, 220+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,600,-600+380*k+400*i,600,600,-580+380*k+400*i
+	d3ribbonto 200,600,-600+380*k+400*i,200,600,-580+380*k+400*i
+	next
+	next
+	
+	//左手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto 600,600-400*k,600, 600,200-400*k,600
+	for i,0,3
+	colorset c(18+i*3+k)
+	d3ribbonto 600,600-400*k,200-400*i, 600,200-400*k,200-400*i
+	next
+	next
+	//左前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+1181*k,-600, 600,-580+1191*k,-600
+	d3ribbonto 600,-601+1181*k,600, 600,-580+1191*k,600
+	d3initlineto
+	d3ribbonto 600,-220+400*k,-600, 600,-180+400*k,-600
+	d3ribbonto 600,-220+400*k,600, 600,-180+400*k,600
+	d3initlineto
+	d3ribbonto 600,-600,-220+400*k,600, -600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto 600,-600,-600+1180*k,600,-600, -580+1185*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1185*k
+	next
+	
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	
+	for i,0,3
+	e(i)=c(3*i+1)
+	c(3*i+1)=c(10+3*i)
+	c(10+3*i)=c(52-3*i)
+	c(52-3*i)=c(34-3*i)
+	c(34-3*i)=e(i)
+	next
+	goto *rt
+	
+	
+*part3_0
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, 1,0,0, 0,cos(p),sin(p), 0,-sin(p),cos(p)
+	
+	d3initlineto
+	d3ribbonto -600,-600,600, -200,-600,600
+	for i,0,3
+	colorset c(29+3*i)
+	d3ribbonto -600,-600,200-400*i, -200,-600,200-400*i
+	next
+	//3奥の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+380*k,-600,-600, -580+380*k,-600,-600
+	d3ribbonto -601+380*k,-600,600, -580+380*k,-600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -200,-600,-600+380*k+400*i,-200,-600,-580+380*k+400*i
+	d3ribbonto -600,-600,-600+380*k+400*i,-600,-600,-580+380*k+400*i
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,600,600, -200,600,600
+	for i,0,3
+	colorset c(9+3*i)
+	d3ribbonto -600,600,200-400*i, -200,600,200-400*i
+	next
+	//3前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+380*k,600,-600, -580+380*k,600,-600
+	d3ribbonto -601+380*k,600,600, -580+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -200,600,-600+380*k+400*i,-200,600,-580+380*k+400*i
+	d3ribbonto -600,600,-600+380*k+400*i,-600,600,-580+380*k+400*i
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,-600,600, -200,-600,600
+	for i,0,3
+	colorset c(3*i)
+	d3ribbonto -600,-200+400*i,600, -200,-200+400*i,600
+	next
+	//3上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+380*k,-600,600, -580+380*k,-600,600
+	d3ribbonto -601+380*k,600,600, -580+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600,-600+380*k+400*i,600,-600,-580+380*k+400*i,600
+	d3ribbonto -200,-600+380*k+400*i,600,-200,-580+380*k+400*i,600
+	next
+	next
+	
+	color
+	d3square x4,x1,x2
+	
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+	
+	for k,0,2
+	d3initlineto
+	d3ribbonto 200+400*k,-600,600, -200+400*k,-600,600
+	for i,0,3
+	colorset c(1+i*3+k)
+	d3ribbonto 200+400*k,-200+400*i,600, -200+400*k,-200+400*i,600
+	next
+	for i,0,3
+	colorset c(10+3*i+k)
+	d3ribbonto 200+400*k,600,200-400*i, -200+400*k,600,200-400*i
+	next
+	next
+	//2上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -200+380*k,-600,600, -180+380*k,-600,600
+	d3ribbonto -200+380*k,600,600, -180+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 200,-600+380*k+400*i,600,200,-580+380*k+400*i,600
+	d3ribbonto -200,-600+380*k+400*i,600,-200,-580+380*k+400*i,600
+	next
+	next
+	//1上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 200+380*k,-600,600, 220+380*k,-600,600
+	d3ribbonto 200+380*k,600,600, 220+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 200,-600+380*k+400*i,600,200,-580+380*k+400*i,600
+	d3ribbonto 600,-600+380*k+400*i,600,600,-580+380*k+400*i,600
+	next
+	next
+	//2前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -200+380*k,600,-600, -180+380*k,600,-600
+	d3ribbonto -200+380*k,600,600, -180+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -200,600,-600+380*k+400*i,-200,600,-580+380*k+400*i
+	d3ribbonto 200,600,-600+380*k+400*i,200,600,-580+380*k+400*i
+	next
+	next
+	//1前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 200+380*k,600,-600, 220+380*k,600,-600
+	d3ribbonto 200+380*k,600,600, 220+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,600,-600+380*k+400*i,600,600,-580+380*k+400*i
+	d3ribbonto 200,600,-600+380*k+400*i,200,600,-580+380*k+400*i
+	next
+	next
+	
+	//左手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto 600,600-400*k,600, 600,200-400*k,600
+	for i,0,3
+	colorset c(18+i*3+k)
+	d3ribbonto 600,600-400*k,200-400*i, 600,200-400*k,200-400*i
+	next
+	next
+	//左前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+1181*k,-600, 600,-580+1191*k,-600
+	d3ribbonto 600,-601+1181*k,600, 600,-580+1191*k,600
+	d3initlineto
+	d3ribbonto 600,-220+400*k,-600, 600,-180+400*k,-600
+	d3ribbonto 600,-220+400*k,600, 600,-180+400*k,600
+	d3initlineto
+	d3ribbonto 600,-600,-220+400*k,600, -600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto 600,-600,-600+1180*k,600,-600, -580+1185*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1185*k
+	next
+	
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	
+	for i,0,3
+	e(i)=c(3*i)
+	c(3*i)=c(35-3*i)
+	c(35-3*i)=c(53-3*i)
+	c(53-3*i)=c(9+3*i)
+	c(9+3*i)=e(i)
+	next
+	
+	e(0)=c(38)
+	c(38)=c(36)
+	c(36)=c(42)
+	c(42)=c(44)
+	c(44)=e(0)
+	
+	e(0)=c(37)
+	c(37)=c(39)
+	c(39)=c(43)
+	c(43)=c(41)
+	c(41)=e(0)
+	goto *rt
+	
+*part3_1
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, 1,0,0, 0,cos(p),-sin(p), 0,sin(p),cos(p)
+	
+	d3initlineto
+	d3ribbonto -600,-600,600, -200,-600,600
+	for i,0,3
+	colorset c(3*i)
+	d3ribbonto -600,-200+400*i,600, -200,-200+400*i,600
+	next
+	//3上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+380*k,-600,600, -580+380*k,-600,600
+	d3ribbonto -601+380*k,600,600, -580+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600,-600+380*k+400*i,600,-600,-580+380*k+400*i,600
+	d3ribbonto -200,-600+380*k+400*i,600,-200,-580+380*k+400*i,600
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,-600,-600, -200,-600,-600
+	for i,0,3
+	colorset c(47+3*i)
+	d3ribbonto -600,-200+400*i,-600, -200,-200+400*i,-600
+	next
+	//3下の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+380*k,-600,-600, -580+380*k,-600,-600
+	d3ribbonto -601+380*k,600,-600, -580+380*k,600,-600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600,-600+380*k+400*i,-600,-600,-580+380*k+400*i,-600
+	d3ribbonto -200,-600+380*k+400*i,-600,-200,-580+380*k+400*i,-600
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,600,600, -200,600,600
+	for i,0,3
+	colorset c(9+3*i)
+	d3ribbonto -600,600,200-400*i, -200,600,200-400*i
+	next
+	//3前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+380*k,600,-600, -580+380*k,600,-600
+	d3ribbonto -601+380*k,600,600, -580+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -200,600,-600+380*k+400*i,-200,600,-580+380*k+400*i
+	d3ribbonto -600,600,-600+380*k+400*i,-600,600,-580+380*k+400*i
+	next
+	next
+	
+	color
+	d3square x4,x1,x2
+	
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+	
+	for k,0,2
+	d3initlineto
+	d3ribbonto 200+400*k,-600,600, -200+400*k,-600,600
+	for i,0,3
+	colorset c(1+i*3+k)
+	d3ribbonto 200+400*k,-200+400*i,600, -200+400*k,-200+400*i,600
+	next
+	for i,0,3
+	colorset c(10+3*i+k)
+	d3ribbonto 200+400*k,600,200-400*i, -200+400*k,600,200-400*i
+	next
+	next
+	//2上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -200+380*k,-600,600, -180+380*k,-600,600
+	d3ribbonto -200+380*k,600,600, -180+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 200,-600+380*k+400*i,600,200,-580+380*k+400*i,600
+	d3ribbonto -200,-600+380*k+400*i,600,-200,-580+380*k+400*i,600
+	next
+	next
+	//1上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 200+380*k,-600,600, 220+380*k,-600,600
+	d3ribbonto 200+380*k,600,600, 220+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 200,-600+380*k+400*i,600,200,-580+380*k+400*i,600
+	d3ribbonto 600,-600+380*k+400*i,600,600,-580+380*k+400*i,600
+	next
+	next
+	//2前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -200+380*k,600,-600, -180+380*k,600,-600
+	d3ribbonto -200+380*k,600,600, -180+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -200,600,-600+380*k+400*i,-200,600,-580+380*k+400*i
+	d3ribbonto 200,600,-600+380*k+400*i,200,600,-580+380*k+400*i
+	next
+	next
+	//1前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 200+380*k,600,-600, 220+380*k,600,-600
+	d3ribbonto 200+380*k,600,600, 220+380*k,600,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,600,-600+380*k+400*i,600,600,-580+380*k+400*i
+	d3ribbonto 200,600,-600+380*k+400*i,200,600,-580+380*k+400*i
+	next
+	next
+	
+	//左手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto 600,600-400*k,600, 600,200-400*k,600
+	for i,0,3
+	colorset c(18+i*3+k)
+	d3ribbonto 600,600-400*k,200-400*i, 600,200-400*k,200-400*i
+	next
+	next
+	//左前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+1181*k,-600, 600,-580+1191*k,-600
+	d3ribbonto 600,-601+1181*k,600, 600,-580+1191*k,600
+	d3initlineto
+	d3ribbonto 600,-220+400*k,-600, 600,-180+400*k,-600
+	d3ribbonto 600,-220+400*k,600, 600,-180+400*k,600
+	d3initlineto
+	d3ribbonto 600,-600,-220+400*k,600, -600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto 600,-600,-600+1180*k,600,-600, -580+1185*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1185*k
+	next
+	
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	
+	for i,0,3
+	e(i)=c(3*i)
+	c(3*i)=c(9+3*i)
+	c(9+3*i)=c(53-3*i)
+	c(53-3*i)=c(35-3*i)
+	c(35-3*i)=e(i)
+	next
+	
+	e(0)=c(38)
+	c(38)=c(44)
+	c(44)=c(42)
+	c(42)=c(36)
+	c(36)=e(0)
+	
+	e(0)=c(37)
+	c(37)=c(41)
+	c(41)=c(43)
+	c(43)=c(39)
+	c(39)=e(0)
+	goto *rt
+	
+	
+*part4_0
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, cos(p),0,-sin(p),0,1,0, sin(p),0,cos(p)
+	
+	d3initlineto
+	d3ribbonto -600,-600,600, -600,-200,600
+	for i,0,3
+	colorset c(i)
+	d3ribbonto -200+400*i,-600,600, -200+400*i,-200,600
+	next
+	//4上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-601+380*k,600, -600,-580+380*k,600
+	d3ribbonto 600,-601+380*k,600, 600,-580+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,-600,600,-580+380*k+400*i,-600,600
+	d3ribbonto -600+380*k+400*i,-200,600,-580+380*k+400*i,-200,600
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,-600,-600, -600,-200,-600
+	for i,0,3
+	colorset c(47-i)
+	d3ribbonto -200+400*i,-600,-600, -200+400*i,-200,-600
+	next
+	//4下の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-601+380*k,-600, -600,-580+380*k,-600
+	d3ribbonto 600,-601+380*k,-600, 600,-580+380*k,-600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,-600,-600,-580+380*k+400*i,-600,-600
+	d3ribbonto -600+380*k+400*i,-200,-600,-580+380*k+400*i,-200,-600
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto 600,-600,600, 600,-200,600
+	for i,0,3
+	colorset c(20+3*i)
+	d3ribbonto 600,-600,200-400*i, 600,-200,200-400*i
+	next
+	//4前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+380*k,-600, 600,-580+380*k,-600
+	d3ribbonto 600,-601+380*k,600, 600,-580+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600,-600+380*k+400*i,600,-600,-580+380*k+400*i
+	d3ribbonto 600,-200,-600+380*k+400*i,600,-200,-580+380*k+400*i
+	next
+	next
+	
+	color
+	d3square x1,x4,x2
+	
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+	
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-200+400*k,600, -600,200+400*k,600
+	for i,0,3
+	colorset c(3+i+3*k)
+	d3ribbonto -200+400*i,-200+400*k,600, -200+400*i,200+400*k,600
+	next
+	for i,0,3
+	colorset c(19+3*i-k)
+	d3ribbonto 600,-200+400*k,200-400*i,600,200+400*k,200-400*i
+	next
+	next
+	//5上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-200+380*k,600, -600,-180+380*k,600
+	d3ribbonto 600,-200+380*k,600, 600,-180+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,200,600, -580+380*k+400*i,200,600
+	d3ribbonto -600+380*k+400*i,-200,600,-580+380*k+400*i,-200,600
+	next
+	next
+	//6上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,200+380*k,600, -600,220+380*k,600
+	d3ribbonto 600,200+380*k,600, 600,220+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,200,600,-580+380*k+400*i,200,600
+	d3ribbonto -600+380*k+400*i,600,600,-580+380*k+400*i,600,600
+	next
+	next
+	//5前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-200+380*k,-600, 600,-180+380*k,-600
+	d3ribbonto 600,-200+380*k,600, 600,-180+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,200,-600+380*k+400*i,600,200, -580+380*k+400*i
+	d3ribbonto 600,-200,-600+380*k+400*i,600,-200,-580+380*k+400*i
+	next
+	next
+	//6前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,200+380*k,-600, 600,220+380*k,-600
+	d3ribbonto 600,200+380*k,600, 600,220+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,200,-600+380*k+400*i,600,200,-580+380*k+400*i
+	d3ribbonto 600,600,-600+380*k+400*i,600,600,-580+380*k+400*i
+	next
+	next
+	
+	//右手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600+400*k,600,600, -200+400*k,600,600
+	for i,0,3
+	colorset c(9+i*3+k)
+	d3ribbonto -600+400*k,600,200-400*i, -200+400*k,600,200-400*i
+	next
+	next
+	//右手前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,600,-600, -580+1191*k,600,-600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,600,-600, -180+400*k,600,-600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,600,-220+400*k, -600,600,-180+400*k
+	d3ribbonto 600,600,-220+400*k, 600,600,-180+400*k
+	d3initlineto
+	d3ribbonto -600,600,-600+1180*k, -600,600, -580+1185*k
+	d3ribbonto 600,600,-600+1180*k, 600,600, -580+1185*k
+	next
+	
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	
+	for i,0,3
+	e(i)=c(i)
+	c(i)=c(20+i*3)
+	c(20+i*3)=c(45+i)
+	c(45+i)=c(42-i*3)
+	c(42-i*3)=e(i)
+	next
+	
+	e(0)=c(28)
+	c(28)=c(30)
+	c(30)=c(34)
+	c(34)=c(32)
+	c(32)=e(0)
+	
+	e(0)=c(27)
+	c(27)=c(33)
+	c(33)=c(35)
+	c(35)=c(29)
+	c(29)=e(0)
+	goto *rt
+	
+*part4_1
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, cos(p),0,sin(p),0,1,0, -sin(p),0,cos(p)
+	
+	d3initlineto
+	d3ribbonto 600,-600,600, 600,-200,600
+	for i,0,3
+	colorset c(20+3*i)
+	d3ribbonto 600,-600,200-400*i, 600,-200,200-400*i
+	next
+	//4前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+380*k,-600, 600,-580+380*k,-600
+	d3ribbonto 600,-601+380*k,600, 600,-580+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600,-600+380*k+400*i,600,-600,-580+380*k+400*i
+	d3ribbonto 600,-200,-600+380*k+400*i,600,-200,-580+380*k+400*i
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,-600,600, -600,-200,600
+	for i,0,3
+	colorset c(36+3*i)
+	d3ribbonto -600,-600,200-400*i, -600,-200,200-400*i
+	next
+	//4奥の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-601+380*k,-600, -600,-580+380*k,-600
+	d3ribbonto -600,-601+380*k,600, -600,-580+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600,-600,-600+380*k+400*i,-600,-600,-580+380*k+400*i
+	d3ribbonto -600,-200,-600+380*k+400*i,-600,-200,-580+380*k+400*i
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,-600,600, -600,-200,600
+	for i,0,3
+	colorset c(i)
+	d3ribbonto -200+400*i,-600,600, -200+400*i,-200,600
+	next
+	//4上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-601+380*k,600, -600,-580+380*k,600
+	d3ribbonto 600,-601+380*k,600, 600,-580+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,-600,600,-580+380*k+400*i,-600,600
+	d3ribbonto -600+380*k+400*i,-200,600,-580+380*k+400*i,-200,600
+	next
+	next
+	
+	color
+	d3square x1,x4,x2
+	
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+	
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-200+400*k,600, -600,200+400*k,600
+	for i,0,3
+	colorset c(3+i+3*k)
+	d3ribbonto -200+400*i,-200+400*k,600, -200+400*i,200+400*k,600
+	next
+	for i,0,3
+	colorset c(19+3*i-k)
+	d3ribbonto 600,-200+400*k,200-400*i,600,200+400*k,200-400*i
+	next
+	next
+	
+	//5上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-200+380*k,600, -600,-180+380*k,600
+	d3ribbonto 600,-200+380*k,600, 600,-180+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,200,600, -580+380*k+400*i,200,600
+	d3ribbonto -600+380*k+400*i,-200,600,-580+380*k+400*i,-200,600
+	next
+	next
+	//6上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,200+380*k,600, -600,220+380*k,600
+	d3ribbonto 600,200+380*k,600, 600,220+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,200,600,-580+380*k+400*i,200,600
+	d3ribbonto -600+380*k+400*i,600,600,-580+380*k+400*i,600,600
+	next
+	next
+	//5前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-200+380*k,-600, 600,-180+380*k,-600
+	d3ribbonto 600,-200+380*k,600, 600,-180+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,200,-600+380*k+400*i,600,200, -580+380*k+400*i
+	d3ribbonto 600,-200,-600+380*k+400*i,600,-200,-580+380*k+400*i
+	next
+	next
+	//6前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,200+380*k,-600, 600,220+380*k,-600
+	d3ribbonto 600,200+380*k,600, 600,220+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,200,-600+380*k+400*i,600,200,-580+380*k+400*i
+	d3ribbonto 600,600,-600+380*k+400*i,600,600,-580+380*k+400*i
+	next
+	next
+	
+	//右手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600+400*k,600,600, -200+400*k,600,600
+	for i,0,3
+	colorset c(9+i*3+k)
+	d3ribbonto -600+400*k,600,200-400*i, -200+400*k,600,200-400*i
+	next
+	next
+	//右手前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,600,-600, -580+1191*k,600,-600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,600,-600, -180+400*k,600,-600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,600,-220+400*k, -600,600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto -600,600,-600+1180*k,-600,600, -580+1180*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1180*k
+	next
+	
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	
+	for i,0,3
+	e(i)=c(i)
+	c(i)=c(42-i*3)
+	c(42-i*3)=c(45+i)
+	c(45+i)=c(20+i*3)
+	c(20+i*3)=e(i)
+	next
+	
+	e(0)=c(28)
+	c(28)=c(32)
+	c(32)=c(34)
+	c(34)=c(30)
+	c(30)=e(0)
+	
+	e(0)=c(27)
+	c(27)=c(29)
+	c(29)=c(35)
+	c(35)=c(33)
+	c(33)=e(0)
+	goto *rt
+	
+	
+*part5_0
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+
+	d3initlineto
+	d3ribbonto -600,-600,600, -600,-200,600
+	for i,0,3
+	colorset c(i)
+	d3ribbonto -200+400*i,-600,600, -200+400*i,-200,600
+	next
+	for i,0,3
+	colorset c(20+3*i)
+	d3ribbonto 600,-600,200-400*i, 600,-200,200-400*i
+	next
+	//4上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-601+380*k,600, -600,-580+380*k,600
+	d3ribbonto 600,-601+380*k,600, 600,-580+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,-600,600,-580+380*k+400*i,-600,600
+	d3ribbonto -600+380*k+400*i,-200,600,-580+380*k+400*i,-200,600
+	next
+	next
+	//4前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+380*k,-600, 600,-580+380*k,-600
+	d3ribbonto 600,-601+380*k,600, 600,-580+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600,-600+380*k+400*i,600,-600,-580+380*k+400*i
+	d3ribbonto 600,-200,-600+380*k+400*i,600,-200,-580+380*k+400*i
+	next
+	next
+	
+	color
+	d3square x1,x4,x2
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, cos(p),0,-sin(p),0,1,0, sin(p),0,cos(p)
+	
+	d3initlineto
+	d3ribbonto -600,-200,600, -600,200,600
+	for i,0,3
+	colorset c(3+i)
+	d3ribbonto -200+400*i,-200,600, -200+400*i,200,600
+	next
+	//5上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-200+380*k,600, -600,-180+380*k,600
+	d3ribbonto 600,-200+380*k,600, 600,-180+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,200,600, -580+380*k+400*i,200,600
+	d3ribbonto -600+380*k+400*i,-200,600,-580+380*k+400*i,-200,600
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,-200,-600, -600,200,-600
+	for i,0,3
+	colorset c(50-i)
+	d3ribbonto -200+400*i,-200,-600, -200+400*i,200,-600
+	next
+	//5下の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-200+380*k,-600, -600,-180+380*k,-600
+	d3ribbonto 600,-200+380*k,-600, 600,-180+380*k,-600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,200,-600, -580+380*k+400*i,200,-600
+	d3ribbonto -600+380*k+400*i,-200,-600,-580+380*k+400*i,-200,-600
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto 600,-200,600, 600,200,600
+	for i,0,3
+	colorset c(19+i*3)
+	d3ribbonto 600,-200,200-400*i, 600,200,200-400*i
+	next
+	//5前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-200+380*k,-600, 600,-180+380*k,-600
+	d3ribbonto 600,-200+380*k,600, 600,-180+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,200,-600+380*k+400*i,600,200, -580+380*k+400*i
+	d3ribbonto 600,-200,-600+380*k+400*i,600,-200,-580+380*k+400*i
+	next
+	next
+	
+	color
+	d3square x1,x3,x2
+	
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+
+	d3initlineto
+	d3ribbonto -600,600,600, -600,200,600
+	for i,0,3
+	colorset c(6+i)
+	d3ribbonto -200+400*i,600,600, -200+400*i,200,600
+	next
+	for i,0,3
+	colorset c(18+3*i)
+	d3ribbonto 600,600,200-400*i, 600,200,200-400*i
+	next
+	//6前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,200+380*k,-600, 600,220+380*k,-600
+	d3ribbonto 600,200+380*k,600, 600,220+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,200,-600+380*k+400*i,600,200,-580+380*k+400*i
+	d3ribbonto 600,600,-600+380*k+400*i,600,600,-580+380*k+400*i
+	next
+	next
+	//6上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,200+380*k,600, -600,220+380*k,600
+	d3ribbonto 600,200+380*k,600, 600,220+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,200,600,-580+380*k+400*i,200,600
+	d3ribbonto -600+380*k+400*i,600,600,-580+380*k+400*i,600,600
+	next
+	next
+	
+	//右手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,600,600-400*k, -600,600,200-400*k
+	for i,0,3
+	colorset c(9+i+3*k)
+	d3ribbonto -200+400*i,600,600-400*k, -200+400*i,600,200-400*k
+	next
+	next
+	//右手前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,600,-600, -580+1191*k,600,-600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,600,-600, -180+400*k,600,-600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,600,-220+400*k, -600,600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto -600,600,-600+1180*k,-600,600, -580+1180*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1180*k
+	next
+	
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	
+	for i,0,3
+	e(i)=c(3+i)
+	c(3+i)=c(19+3*i)
+	c(19+3*i)=c(48+i)
+	c(48+i)=c(43-3*i)
+	c(43-3*i)=e(i)
+	next
+	goto *rt
+	
+*part5_1
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+
+	d3initlineto
+	d3ribbonto -600,-600,600, -600,-200,600
+	for i,0,3
+	colorset c(i)
+	d3ribbonto -200+400*i,-600,600, -200+400*i,-200,600
+	next
+	for i,0,3
+	colorset c(20+3*i)
+	d3ribbonto 600,-600,200-400*i, 600,-200,200-400*i
+	next
+	//4上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-601+380*k,600, -600,-580+380*k,600
+	d3ribbonto 600,-601+380*k,600, 600,-580+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,-600,600,-580+380*k+400*i,-600,600
+	d3ribbonto -600+380*k+400*i,-200,600,-580+380*k+400*i,-200,600
+	next
+	next
+	
+	//4前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+380*k,-600, 600,-580+380*k,-600
+	d3ribbonto 600,-601+380*k,600, 600,-580+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600,-600+380*k+400*i,600,-600,-580+380*k+400*i
+	d3ribbonto 600,-200,-600+380*k+400*i,600,-200,-580+380*k+400*i
+	next
+	next
+	
+	color
+	d3square x1,x4,x2
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, cos(p),0,sin(p),0,1,0, -sin(p),0,cos(p)
+	
+	d3initlineto
+	d3ribbonto 600,-200,600, 600,200,600
+	for i,0,3
+	colorset c(19+i*3)
+	d3ribbonto 600,-200,200-400*i, 600,200,200-400*i
+	next
+	//5前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-200+380*k,-600, 600,-180+380*k,-600
+	d3ribbonto 600,-200+380*k,600, 600,-180+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,200,-600+380*k+400*i,600,200, -580+380*k+400*i
+	d3ribbonto 600,-200,-600+380*k+400*i,600,-200,-580+380*k+400*i
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,-200,600, -600,200,600
+	for i,0,3
+	colorset c(37+i*3)
+	d3ribbonto -600,-200,200-400*i, -600,200,200-400*i
+	next
+	//5奥の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-200+380*k,-600, -600,-180+380*k,-600
+	d3ribbonto -600,-200+380*k,600, -600,-180+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600,200,-600+380*k+400*i,-600,200, -580+380*k+400*i
+	d3ribbonto -600,-200,-600+380*k+400*i,-600,-200,-580+380*k+400*i
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,-200,600, -600,200,600
+	for i,0,3
+	colorset c(3+i)
+	d3ribbonto -200+400*i,-200,600, -200+400*i,200,600
+	next
+	//5上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-200+380*k,600, -600,-180+380*k,600
+	d3ribbonto 600,-200+380*k,600, 600,-180+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,200,600, -580+380*k+400*i,200,600
+	d3ribbonto -600+380*k+400*i,-200,600,-580+380*k+400*i,-200,600
+	next
+	next
+	
+	color
+	d3square x1,x3,x2
+	
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+
+	d3initlineto
+	d3ribbonto -600,600,600, -600,200,600
+	for i,0,3
+	colorset c(6+i)
+	d3ribbonto -200+400*i,600,600, -200+400*i,200,600
+	next
+	for i,0,3
+	colorset c(18+3*i)
+	d3ribbonto 600,600,200-400*i, 600,200,200-400*i
+	next
+	//6上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,200+380*k,600, -600,220+380*k,600
+	d3ribbonto 600,200+380*k,600, 600,220+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,200,600,-580+380*k+400*i,200,600
+	d3ribbonto -600+380*k+400*i,600,600,-580+380*k+400*i,600,600
+	next
+	next
+	//6前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,200+380*k,-600, 600,220+380*k,-600
+	d3ribbonto 600,200+380*k,600, 600,220+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,200,-600+380*k+400*i,600,200,-580+380*k+400*i
+	d3ribbonto 600,600,-600+380*k+400*i,600,600,-580+380*k+400*i
+	next
+	next
+	
+	//右手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,600,600-400*k, -600,600,200-400*k
+	for i,0,3
+	colorset c(9+i+3*k)
+	d3ribbonto -200+400*i,600,600-400*k, -200+400*i,600,200-400*k
+	next
+	next
+	//右手前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,600,-600, -580+1191*k,600,-600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,600,-600, -180+400*k,600,-600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,600,-220+400*k, -600,600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto -600,600,-600+1180*k,-600,600, -580+1180*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1180*k
+	next
+	
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	
+	for i,0,3
+	e(i)=c(3+i)
+	c(3+i)=c(43-3*i)
+	c(43-3*i)=c(48+i)
+	c(48+i)=c(19+3*i)
+	c(19+3*i)=e(i)
+	next
+	goto *rt
+	
+	
+*part6_0
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+	//上および右手前の第２，３列
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-600+400*k,600, -600,-200+400*k,600
+	for i,0,3
+	colorset c(i+k*3)
+	d3ribbonto -200+400*i,-600+400*k,600, -200+400*i,-200+400*k,600
+	next
+	for i,0,3
+	colorset c(20+3*i-k)
+	d3ribbonto 600,-600+400*k,200-400*i, 600,-200+400*k,200-400*i
+	next
+	next
+	//4上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-601+380*k,600, -600,-580+380*k,600
+	d3ribbonto 600,-601+380*k,600, 600,-580+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,-600,600,-580+380*k+400*i,-600,600
+	d3ribbonto -600+380*k+400*i,-200,600,-580+380*k+400*i,-200,600
+	next
+	next
+	//5上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-200+380*k,600, -600,-180+380*k,600
+	d3ribbonto 600,-200+380*k,600, 600,-180+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,200,600, -580+380*k+400*i,200,600
+	d3ribbonto -600+380*k+400*i,-200,600,-580+380*k+400*i,-200,600
+	next
+	next
+	//4前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+380*k,-600, 600,-580+380*k,-600
+	d3ribbonto 600,-601+380*k,600, 600,-580+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600,-600+380*k+400*i,600,-600,-580+380*k+400*i
+	d3ribbonto 600,-200,-600+380*k+400*i,600,-200,-580+380*k+400*i
+	next
+	next
+	//5前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-200+380*k,-600, 600,-180+380*k,-600
+	d3ribbonto 600,-200+380*k,600, 600,-180+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,200,-600+380*k+400*i,600,200, -580+380*k+400*i
+	d3ribbonto 600,-200,-600+380*k+400*i,600,-200,-580+380*k+400*i
+	next
+	next
+	
+	color
+	d3square x1,x3,x2
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, cos(p),0,-sin(p),0,1,0, sin(p),0,cos(p)
+	
+	d3initlineto
+	d3ribbonto -600,600,600, -600,200,600
+	for i,0,3
+	colorset c(6+i)
+	d3ribbonto -200+400*i,600,600, -200+400*i,200,600
+	next
+	//6上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,200+380*k,600, -600,220+380*k,600
+	d3ribbonto 600,200+380*k,600, 600,220+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,200,600,-580+380*k+400*i,200,600
+	d3ribbonto -600+380*k+400*i,600,600,-580+380*k+400*i,600,600
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,600,-600, -600,200,-600
+	for i,0,3
+	colorset c(53-i)
+	d3ribbonto -200+400*i,600,-600, -200+400*i,200,-600
+	next
+	//6下の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,200+380*k,-600, -600,220+380*k,-600
+	d3ribbonto 600,200+380*k,-600, 600,220+380*k,-600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,200,-600,-580+380*k+400*i,200,-600
+	d3ribbonto -600+380*k+400*i,600,-600,-580+380*k+400*i,600,-600
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto 600,600,600, 600,200,600
+	for i,0,3
+	colorset c(18+i*3)
+	d3ribbonto 600,600,200-400*i, 600,200,200-400*i
+	next
+	//6前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,200+380*k,-600, 600,220+380*k,-600
+	d3ribbonto 600,200+380*k,600, 600,220+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,200,-600+380*k+400*i,600,200,-580+380*k+400*i
+	d3ribbonto 600,600,-600+380*k+400*i,600,600,-580+380*k+400*i
+	next
+	next
+	
+	//右手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,600,600-400*k, -600,600,200-400*k
+	for i,0,3
+	colorset c(9+i+k*3)
+	d3ribbonto-200+400*i,600,600-400*k, -200+400*i,600,200-400*k
+	next
+	next
+	//右手前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,600,-600, -580+1191*k,600,-600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,600,-600, -180+400*k,600,-600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,600,-220+400*k, -600,600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto -600,600,-600+1180*k,-600,600, -580+1180*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1180*k
+	next
+	
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+	for i,0,3
+	e(i)=c(i+6)
+	c(i+6)=c(18+3*i)
+	c(18+3*i)=c(51+i)
+	c(51+i)=c(44-3*i)
+	c(44-3*i)=e(i)
+	next
+	e(0)=c(9)
+	c(9)=c(11)
+	c(11)=c(17)
+	c(17)=c(15)
+	c(15)=e(0)
+	e(0)=c(10)
+	c(10)=c(14)
+	c(14)=c(16)
+	c(16)=c(12)
+	c(12)=e(0)
+	goto *rt
+	
+*part6_1
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+	//上および右手前の第２，３列
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-600+400*k,600, -600,-200+400*k,600
+	for i,0,3
+	colorset c(i+k*3)
+	d3ribbonto -200+400*i,-600+400*k,600, -200+400*i,-200+400*k,600
+	next
+	for i,0,3
+	colorset c(20+3*i-k)
+	d3ribbonto 600,-600+400*k,200-400*i, 600,-200+400*k,200-400*i
+	next
+	next
+	//4上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-601+380*k,600, -600,-580+380*k,600
+	d3ribbonto 600,-601+380*k,600, 600,-580+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,-600,600,-580+380*k+400*i,-600,600
+	d3ribbonto -600+380*k+400*i,-200,600,-580+380*k+400*i,-200,600
+	next
+	next
+	//5上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-200+380*k,600, -600,-180+380*k,600
+	d3ribbonto 600,-200+380*k,600, 600,-180+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,200,600, -580+380*k+400*i,200,600
+	d3ribbonto -600+380*k+400*i,-200,600,-580+380*k+400*i,-200,600
+	next
+	next
+	//4前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+380*k,-600, 600,-580+380*k,-600
+	d3ribbonto 600,-601+380*k,600, 600,-580+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600,-600+380*k+400*i,600,-600,-580+380*k+400*i
+	d3ribbonto 600,-200,-600+380*k+400*i,600,-200,-580+380*k+400*i
+	next
+	next
+	//5前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-200+380*k,-600, 600,-180+380*k,-600
+	d3ribbonto 600,-200+380*k,600, 600,-180+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,200,-600+380*k+400*i,600,200, -580+380*k+400*i
+	d3ribbonto 600,-200,-600+380*k+400*i,600,-200,-580+380*k+400*i
+	next
+	next
+	
+	color
+	d3square x1,x3,x2
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, cos(p),0,sin(p),0,1,0, -sin(p),0,cos(p)
+	
+	d3initlineto
+	d3ribbonto 600,600,600, 600,200,600
+	for i,0,3
+	colorset c(18+i*3)
+	d3ribbonto 600,600,200-400*i, 600,200,200-400*i
+	next
+	//6前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,200+380*k,-600, 600,220+380*k,-600
+	d3ribbonto 600,200+380*k,600, 600,220+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,200,-600+380*k+400*i,600,200,-580+380*k+400*i
+	d3ribbonto 600,600,-600+380*k+400*i,600,600,-580+380*k+400*i
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,600,600, -600,200,600
+	for i,0,3
+	colorset c(38+i*3)
+	d3ribbonto -600,600,200-400*i, -600,200,200-400*i
+	next
+	//6奥の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,200+380*k,-600, -600,220+380*k,-600
+	d3ribbonto -600,200+380*k,600, -600,220+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600,200,-600+380*k+400*i,-600,200,-580+380*k+400*i
+	d3ribbonto -600,600,-600+380*k+400*i,-600,600,-580+380*k+400*i
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,600,600, -600,200,600
+	for i,0,3
+	colorset c(6+i)
+	d3ribbonto -200+400*i,600,600, -200+400*i,200,600
+	next
+	//6上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,200+380*k,600, -600,220+380*k,600
+	d3ribbonto 600,200+380*k,600, 600,220+380*k,600
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,200,600,-580+380*k+400*i,200,600
+	d3ribbonto -600+380*k+400*i,600,600,-580+380*k+400*i,600,600
+	next
+	next
+	
+	
+	//右手前
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,600,600-400*k, -600,600,200-400*k
+	for i,0,3
+	colorset c(9+i+k*3)
+	d3ribbonto-200+400*i,600,600-400*k, -200+400*i,600,200-400*k
+	next
+	next
+	//右手前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,600,-600, -580+1191*k,600,-600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,600,-600, -180+400*k,600,-600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,600,-220+400*k, -600,600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto -600,600,-600+1180*k,-600,600, -580+1180*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1180*k
+	next
+	
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+	
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	
+	for i,0,3
+	e(i)=c(i+6)
+	c(i+6)=c(44-3*i)
+	c(44-3*i)=c(51+i)
+	c(51+i)=c(18+3*i)
+	c(18+3*i)=e(i)
+	next
+	e(0)=c(9)
+	c(9)=c(15)
+	c(15)=c(17)
+	c(17)=c(11)
+	c(11)=e(0)
+	e(0)=c(10)
+	c(10)=c(12)
+	c(12)=c(16)
+	c(16)=c(14)
+	c(14)=e(0)
+	goto *rt
+	
+	
+*part7_0
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	d3setlocal 0,0,0,1,0,0,0,1,0,0,0,1
+	
+	//左手前および右手前の８，９列目
+	for k,1,3
+	d3initlineto
+	d3ribbonto -600,600,600-400*k, -600,600,200-400*k
+	for i,0,3
+	colorset c(9+i+k*3)
+	d3ribbonto -200+400*i,600,600-400*k, -200+400*i,600,200-400*k
+	next
+	for i,0,3
+	colorset c(18+i+k*3)
+	d3ribbonto 600,200-400*i,600-400*k, 600,200-400*i,200-400*k
+	next
+	next
+		//9右前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,-601+380*k, -600,600,-580+380*k
+	d3ribbonto 600,600,-601+380*k, 600,600,-580+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,-600,-580+380*k+400*i,600,-600
+	d3ribbonto -600+380*k+400*i,600,-200,-580+380*k+400*i,600,-200
+	next
+	next
+	//８右前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,-200+380*k, -600,600,-180+380*k
+	d3ribbonto 600,600,-200+380*k, 600,600,-180+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,200, -580+380*k+400*i,600,200
+	d3ribbonto -600+380*k+400*i,600,-200,-580+380*k+400*i,600,-200
+	next
+	next
+	//9左前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,-601+380*k, 600,-600,-580+380*k
+	d3ribbonto 600,600,-601+380*k, 600,600,-580+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,-600,600,-580+380*k+400*i,-600
+	d3ribbonto 600,-600+380*k+400*i,-200,600,-580+380*k+400*i,-200
+	next
+	next
+	//８左前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,-200+380*k, 600,-600,-180+380*k
+	d3ribbonto 600,600,-200+380*k, 600,600,-180+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,200,600, -580+380*k+400*i,200
+	d3ribbonto 600,-600+380*k+400*i,-200,600,-580+380*k+400*i,-200
+	next
+	next
+	
+	color
+	d3square x1,x2,x3
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, cos(p),-sin(p),0, sin(p),cos(p),0, 0,0,1
+	
+	//左奥面の7
+	d3initlineto
+	d3ribbonto -600,-600,600, -600,-600,200
+	for i,0,3
+	colorset c(29-i)
+	d3ribbonto -200+400*i,-600,600, -200+400*i,-600,200
+	next
+	//７左奥の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-600,200+380*k, -600,-600,220+380*k
+	d3ribbonto 600,-600,200+380*k, 600,-600,220+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,-600,200,-580+380*k+400*i,-600,200
+	d3ribbonto -600+380*k+400*i,-600,600,-580+380*k+400*i,-600,600
+	next
+	next
+	
+	//右手前面の7
+	d3initlineto
+	d3ribbonto -600,600,600, -600,600,200
+	for i,0,3
+	colorset c(9+i)
+	d3ribbonto -200+400*i,600,600, -200+400*i,600,200
+	next
+	//７右前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,200+380*k, -600,600,220+380*k
+	d3ribbonto 600,600,200+380*k, 600,600,220+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,200,-580+380*k+400*i,600,200
+	d3ribbonto -600+380*k+400*i,600,600,-580+380*k+400*i,600,600
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto 600,600,600, 600,600,200
+	for i,0,3
+	colorset c(18+i)
+	d3ribbonto 600,200-400*i,600, 600,200-400*i,200
+	next
+	//７左前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,195+380*k, 600,-600,220+380*k
+	d3ribbonto 600,600,195+380*k, 600,600,220+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,200,600,-580+380*k+400*i,200
+	d3ribbonto 600,-600+380*k+400*i,600,600,-580+380*k+400*i,600
+	next
+	next
+	
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,-600+400*k,600, -600,-200+400*k,600
+	for i,0,3
+	colorset c(i+k*3)
+	d3ribbonto -200+400*i,-600+400*k,600, -200+400*i,-200+400*k,600
+	next
+	next
+	//上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,-600,600, -580+1191*k,-600,600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,-600,600, -180+400*k,-600,600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,-220+400*k,600, -600,-180+400*k,600
+	d3ribbonto 600,-220+400*k,600,600,-180+400*k,600
+	d3initlineto
+	d3ribbonto -600,-600+1180*k,600,-600, -580+1180*k,600
+	d3ribbonto 600,-600+1180*k,600,600, -580+1180*k,600
+	next
+	
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+	for i,0,3
+	e(i)=c(9+i)
+	c(9+i)=c(18+i)
+	c(18+i)=c(27+i)
+	c(27+i)=c(36+i)
+	c(36+i)=e(i)
+	next
+	e(0)=c(0)
+	c(0)=c(6)
+	c(6)=c(8)
+	c(8)=c(2)
+	c(2)=e(0)
+	e(0)=c(1)
+	c(1)=c(3)
+	c(3)=c(7)
+	c(7)=c(5)
+	c(5)=e(0)
+	goto *rt
+	
+*part7_1
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	d3setlocal 0,0,0,1,0,0,0,1,0,0,0,1
+	
+	//左手前および右手前の８，９列目
+	for k,1,3
+	d3initlineto
+	d3ribbonto -600,600,600-400*k, -600,600,200-400*k
+	for i,0,3
+	colorset c(9+i+k*3)
+	d3ribbonto -200+400*i,600,600-400*k, -200+400*i,600,200-400*k
+	next
+	for i,0,3
+	colorset c(18+i+k*3)
+	d3ribbonto 600,200-400*i,600-400*k, 600,200-400*i,200-400*k
+	next
+	next
+		//9右前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,-601+380*k, -600,600,-580+380*k
+	d3ribbonto 600,600,-601+380*k, 600,600,-580+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,-600,-580+380*k+400*i,600,-600
+	d3ribbonto -600+380*k+400*i,600,-200,-580+380*k+400*i,600,-200
+	next
+	next
+	//８右前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,-200+380*k, -600,600,-180+380*k
+	d3ribbonto 600,600,-200+380*k, 600,600,-180+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,200, -580+380*k+400*i,600,200
+	d3ribbonto -600+380*k+400*i,600,-200,-580+380*k+400*i,600,-200
+	next
+	next
+	//9左前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,-601+380*k, 600,-600,-580+380*k
+	d3ribbonto 600,600,-601+380*k, 600,600,-580+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,-600,600,-580+380*k+400*i,-600
+	d3ribbonto 600,-600+380*k+400*i,-200,600,-580+380*k+400*i,-200
+	next
+	next
+	//８左前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,-200+380*k, 600,-600,-180+380*k
+	d3ribbonto 600,600,-200+380*k, 600,600,-180+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,200,600, -580+380*k+400*i,200
+	d3ribbonto 600,-600+380*k+400*i,-200,600,-580+380*k+400*i,-200
+	next
+	next
+	
+	color
+	d3square x1,x2,x3
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, cos(p),sin(p),0, -sin(p),cos(p),0, 0,0,1
+	
+	d3initlineto
+	d3ribbonto 600,600,600, 600,600,200
+	for i,0,3
+	colorset c(18+i)
+	d3ribbonto 600,200-400*i,600, 600,200-400*i,200
+	next
+	//７左前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,195+380*k, 600,-600,220+380*k
+	d3ribbonto 600,600,195+380*k, 600,600,220+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,200,600,-580+380*k+400*i,200
+	d3ribbonto 600,-600+380*k+400*i,600,600,-580+380*k+400*i,600
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,600,600, -600,600,200
+	for i,0,3
+	colorset c(38-i)
+	d3ribbonto -600,200-400*i,600, -600,200-400*i,200
+	next
+	//７右奥の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-600,200+380*k, -600,-600,220+380*k
+	d3ribbonto -600,600,200+380*k, -600,600,220+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600,-600+380*k+400*i,200,-600,-580+380*k+400*i,200
+	d3ribbonto -600,-600+380*k+400*i,600,-600,-580+380*k+400*i,600
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,600,600, -600,600,200
+	for i,0,3
+	colorset c(9+i)
+	d3ribbonto -200+400*i,600,600, -200+400*i,600,200
+	next
+	//７右前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,200+380*k, -600,600,220+380*k
+	d3ribbonto 600,600,200+380*k, 600,600,220+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,200,-580+380*k+400*i,600,200
+	d3ribbonto -600+380*k+400*i,600,600,-580+380*k+400*i,600,600
+	next
+	next
+	
+	
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,-600+400*k,600, -600,-200+400*k,600
+	for i,0,3
+	colorset c(i+k*3)
+	d3ribbonto -200+400*i,-600+400*k,600, -200+400*i,-200+400*k,600
+	next
+	next
+	//上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,-600,600, -580+1191*k,-600,600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,-600,600, -180+400*k,-600,600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,-220+400*k,600, -600,-180+400*k,600
+	d3ribbonto 600,-220+400*k,600,600,-180+400*k,600
+	d3initlineto
+	d3ribbonto -600,-600+1180*k,600,-600, -580+1180*k,600
+	d3ribbonto 600,-600+1180*k,600,600, -580+1180*k,600
+	next
+	
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	d3setlocal 0,0,0, 1,0,0, 0,1,0, 0,0,1
+	for i,0,3
+	e(i)=c(9+i)
+	c(9+i)=c(36+i)
+	c(36+i)=c(27+i)
+	c(27+i)=c(18+i)
+	c(18+i)=e(i)
+	next
+	e(0)=c(0)
+	c(0)=c(2)
+	c(2)=c(8)
+	c(8)=c(6)
+	c(6)=e(0)
+	e(0)=c(1)
+	c(1)=c(5)
+	c(5)=c(7)
+	c(7)=c(3)
+	c(3)=e(0)
+	goto *rt
+	
+	
+*part8_0
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	d3setlocal 0,0,0,1,0,0,0,1,0,0,0,1
+	
+	d3initlineto
+	d3ribbonto -600,600,-200, -600,600,-600
+	for i,0,3
+	colorset c(15+i)
+	d3ribbonto -200+400*i,600,-200, -200+400*i,600,-600
+	next
+	for i,0,3
+	colorset c(24+i)
+	d3ribbonto 600,200-400*i,-200, 600,200-400*i,-600
+	next
+	//9右前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,-601+380*k, -600,600,-580+380*k
+	d3ribbonto 600,600,-601+380*k, 600,600,-580+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,-600,-580+380*k+400*i,600,-600
+	d3ribbonto -600+380*k+400*i,600,-200,-580+380*k+400*i,600,-200
+	next
+	next
+	//9左前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,-601+380*k, 600,-600,-580+380*k
+	d3ribbonto 600,600,-601+380*k, 600,600,-580+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,-600,600,-580+380*k+400*i,-600
+	d3ribbonto 600,-600+380*k+400*i,-200,600,-580+380*k+400*i,-200
+	next
+	next
+	
+	color
+	d3square x1,x2,x4
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, cos(p),-sin(p),0, sin(p),cos(p),0, 0,0,1
+	
+	d3initlineto
+	d3ribbonto -600,-600,200, -600,-600,-200
+	for i,0,3
+	colorset c(32-i)
+	d3ribbonto -200+400*i,-600,200, -200+400*i,-600,-200
+	next
+	//８左奥の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-600,-200+380*k, -600,-600,-180+380*k
+	d3ribbonto 600,-600,-200+380*k, 600,-600,-180+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,-600,200, -580+380*k+400*i,-600,200
+	d3ribbonto -600+380*k+400*i,-600,-200,-580+380*k+400*i,-600,-200
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,600,200, -600,600,-200
+	for i,0,3
+	colorset c(12+i)
+	d3ribbonto -200+400*i,600,200, -200+400*i,600,-200
+	next
+	//８右前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,-200+380*k, -600,600,-180+380*k
+	d3ribbonto 600,600,-200+380*k, 600,600,-180+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,200, -580+380*k+400*i,600,200
+	d3ribbonto -600+380*k+400*i,600,-200,-580+380*k+400*i,600,-200
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto 600,600,200, 600,600,-200
+	for i,0,3
+	colorset c(21+i)
+	d3ribbonto 600,200-400*i,200, 600,200-400*i,-200
+	next
+	//８左前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,-200+380*k, 600,-600,-180+380*k
+	d3ribbonto 600,600,-200+380*k, 600,600,-180+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,200,600, -580+380*k+400*i,200
+	d3ribbonto 600,-600+380*k+400*i,-200,600,-580+380*k+400*i,-200
+	next
+	next
+	
+	color
+	d3square x1,x2,x3
+	
+	d3setlocal 0,0,0,1,0,0,0,1,0,0,0,1
+	
+	d3initlineto
+	d3ribbonto -600,600,200, -600,600,600
+	for i,0,3
+	colorset c(9+i)
+	d3ribbonto -200+400*i,600,200, -200+400*i,600,600
+	next
+	for i,0,3
+	colorset c(18+i)
+	d3ribbonto 600,200-400*i,200, 600,200-400*i,600
+	next
+	//７右前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,200+380*k, -600,600,220+380*k
+	d3ribbonto 600,600,200+380*k, 600,600,220+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,200,-580+380*k+400*i,600,200
+	d3ribbonto -600+380*k+400*i,600,600,-580+380*k+400*i,600,600
+	next
+	next
+	//７左前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,195+380*k, 600,-600,220+380*k
+	d3ribbonto 600,600,195+380*k, 600,600,220+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,200,600,-580+380*k+400*i,200
+	d3ribbonto 600,-600+380*k+400*i,600,600,-580+380*k+400*i,600
+	next
+	next
+	
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,-600+400*k,600, -600,-200+400*k,600
+	for i,0,3
+	colorset c(i+k*3)
+	d3ribbonto -200+400*i,-600+400*k,600, -200+400*i,-200+400*k,600
+	next
+	next
+	//上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,-600,600, -580+1191*k,-600,600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,-600,600, -180+400*k,-600,600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,-220+400*k,600, -600,-180+400*k,600
+	d3ribbonto 600,-220+400*k,600,600,-180+400*k,600
+	d3initlineto
+	d3ribbonto -600,-600+1180*k,600,-600, -580+1180*k,600
+	d3ribbonto 600,-600+1180*k,600,600, -580+1180*k,600
+	next
+	
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	
+	for i,0,3
+	e(i)=c(12+i)
+	c(12+i)=c(21+i)
+	c(21+i)=c(30+i)
+	c(30+i)=c(39+i)
+	c(39+i)=e(i)
+	next
+	goto *rt
+	
+*part8_1
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	d3setlocal 0,0,0,1,0,0,0,1,0,0,0,1
+	
+	d3initlineto
+	d3ribbonto -600,600,-200, -600,600,-600
+	for i,0,3
+	colorset c(15+i)
+	d3ribbonto -200+400*i,600,-200, -200+400*i,600,-600
+	next
+	for i,0,3
+	colorset c(24+i)
+	d3ribbonto 600,200-400*i,-200, 600,200-400*i,-600
+	next
+	//9右前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,-601+380*k, -600,600,-580+380*k
+	d3ribbonto 600,600,-601+380*k, 600,600,-580+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,-600,-580+380*k+400*i,600,-600
+	d3ribbonto -600+380*k+400*i,600,-200,-580+380*k+400*i,600,-200
+	next
+	next
+	//9左前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,-601+380*k, 600,-600,-580+380*k
+	d3ribbonto 600,600,-601+380*k, 600,600,-580+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,-600,600,-580+380*k+400*i,-600
+	d3ribbonto 600,-600+380*k+400*i,-200,600,-580+380*k+400*i,-200
+	next
+	next
+	
+	color
+	d3square x1,x2,x4
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, cos(p),sin(p),0, -sin(p),cos(p),0, 0,0,1
+	
+	d3initlineto
+	d3ribbonto 600,600,200, 600,600,-200
+	for i,0,3
+	colorset c(21+i)
+	d3ribbonto 600,200-400*i,200, 600,200-400*i,-200
+	next
+	//８左前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,-200+380*k, 600,-600,-180+380*k
+	d3ribbonto 600,600,-200+380*k, 600,600,-180+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,200,600, -580+380*k+400*i,200
+	d3ribbonto 600,-600+380*k+400*i,-200,600,-580+380*k+400*i,-200
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,600,200, -600,600,-200
+	for i,0,3
+	colorset c(41-i)
+	d3ribbonto -600,200-400*i,200, -600,200-400*i,-200
+	next
+	//８右奥の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-600,-200+380*k, -600,-600,-180+380*k
+	d3ribbonto -600,600,-200+380*k, -600,600,-180+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600,-600+380*k+400*i,200,-600, -580+380*k+400*i,200
+	d3ribbonto -600,-600+380*k+400*i,-200,-600,-580+380*k+400*i,-200
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,600,200, -600,600,-200
+	for i,0,3
+	colorset c(12+i)
+	d3ribbonto -200+400*i,600,200, -200+400*i,600,-200
+	next
+	//８右前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,-200+380*k, -600,600,-180+380*k
+	d3ribbonto 600,600,-200+380*k, 600,600,-180+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,200, -580+380*k+400*i,600,200
+	d3ribbonto -600+380*k+400*i,600,-200,-580+380*k+400*i,600,-200
+	next
+	next
+	
+	color
+	d3square x1,x2,x3
+	
+	d3setlocal 0,0,0,1,0,0,0,1,0,0,0,1
+	
+	d3initlineto
+	d3ribbonto -600,600,200, -600,600,600
+	for i,0,3
+	colorset c(9+i)
+	d3ribbonto -200+400*i,600,200, -200+400*i,600,600
+	next
+	for i,0,3
+	colorset c(18+i)
+	d3ribbonto 600,200-400*i,200, 600,200-400*i,600
+	next
+	//７右前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,200+380*k, -600,600,220+380*k
+	d3ribbonto 600,600,200+380*k, 600,600,220+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,200,-580+380*k+400*i,600,200
+	d3ribbonto -600+380*k+400*i,600,600,-580+380*k+400*i,600,600
+	next
+	next
+	//７左前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,195+380*k, 600,-600,220+380*k
+	d3ribbonto 600,600,195+380*k, 600,600,220+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,200,600,-580+380*k+400*i,200
+	d3ribbonto 600,-600+380*k+400*i,600,600,-580+380*k+400*i,600
+	next
+	next
+	
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,-600+400*k,600, -600,-200+400*k,600
+	for i,0,3
+	colorset c(i+k*3)
+	d3ribbonto -200+400*i,-600+400*k,600, -200+400*i,-200+400*k,600
+	next
+	next
+	//上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,-600,600, -580+1191*k,-600,600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,-600,600, -180+400*k,-600,600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,-220+400*k,600, -600,-180+400*k,600
+	d3ribbonto 600,-220+400*k,600,600,-180+400*k,600
+	d3initlineto
+	d3ribbonto -600,-600+1180*k,600,-600, -580+1180*k,600
+	d3ribbonto 600,-600+1180*k,600,600, -580+1180*k,600
+	next
+	
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	
+	for i,0,3
+	e(i)=c(12+i)
+	c(12+i)=c(39+i)
+	c(39+i)=c(30+i)
+	c(30+i)=c(21+i)
+	c(21+i)=e(i)
+	next
+	goto *rt
+	
+*part9_0
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, cos(p),-sin(p),0, sin(p),cos(p),0, 0,0,1
+	
+	d3initlineto
+	d3ribbonto -600,-600,-600, -600,-600,-200
+	for i,0,3
+	colorset c(35-i)
+	d3ribbonto -200+400*i,-600,-600, -200+400*i,-600,-200
+	next
+	//9左奥の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-600,-601+380*k, -600,-600,-580+380*k
+	d3ribbonto 600,-600,-601+380*k, 600,-600,-580+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,-600,-600,-580+380*k+400*i,-600,-600
+	d3ribbonto -600+380*k+400*i,-600,-200,-580+380*k+400*i,-600,-200
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,600,-600, -600,600,-200
+	for i,0,3
+	colorset c(15+i)
+	d3ribbonto -200+400*i,600,-600, -200+400*i,600,-200
+	next
+	//9右前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,-601+380*k, -600,600,-580+380*k
+	d3ribbonto 600,600,-601+380*k, 600,600,-580+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,-600,-580+380*k+400*i,600,-600
+	d3ribbonto -600+380*k+400*i,600,-200,-580+380*k+400*i,600,-200
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto 600,600,-600, 600,600,-200
+	for i,0,3
+	colorset c(24+i)
+	d3ribbonto 600,200-400*i,-600, 600,200-400*i,-200
+	next
+	//9左前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,-601+380*k, 600,-600,-580+380*k
+	d3ribbonto 600,600,-601+380*k, 600,600,-580+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,-600,600,-580+380*k+400*i,-600
+	d3ribbonto 600,-600+380*k+400*i,-200,600,-580+380*k+400*i,-200
+	next
+	next
+	
+	color
+	d3square x1,x2,x4
+	
+	d3setlocal 0,0,0,1,0,0,0,1,0,0,0,1
+	
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,600-400*k, -600,600,200-400*k
+	for i,0,3
+	colorset c(9+i+3*k)
+	d3ribbonto -200+400*i,600,600-400*k, -200+400*i,600,200-400*k
+	next
+	for i,0,3
+	colorset c(18+i+3*k)
+	d3ribbonto 600,200-400*i,600-400*k, 600,200-400*i,200-400*k
+	next
+	next
+	//８右前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,-200+380*k, -600,600,-180+380*k
+	d3ribbonto 600,600,-200+380*k, 600,600,-180+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,200, -580+380*k+400*i,600,200
+	d3ribbonto -600+380*k+400*i,600,-200,-580+380*k+400*i,600,-200
+	next
+	next
+	//７右前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,200+380*k, -600,600,220+380*k
+	d3ribbonto 600,600,200+380*k, 600,600,220+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,200,-580+380*k+400*i,600,200
+	d3ribbonto -600+380*k+400*i,600,600,-580+380*k+400*i,600,600
+	next
+	next
+	//８左前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,-200+380*k, 600,-600,-180+380*k
+	d3ribbonto 600,600,-200+380*k, 600,600,-180+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,200,600, -580+380*k+400*i,200
+	d3ribbonto 600,-600+380*k+400*i,-200,600,-580+380*k+400*i,-200
+	next
+	next
+	//７左前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,195+380*k, 600,-600,220+380*k
+	d3ribbonto 600,600,195+380*k, 600,600,220+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,200,600,-580+380*k+400*i,200
+	d3ribbonto 600,-600+380*k+400*i,600,600,-580+380*k+400*i,600
+	next
+	next
+	
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,-600+400*k,600, -600,-200+400*k,600
+	for i,0,3
+	colorset c(i+3*k)
+	d3ribbonto -200+400*i,-600+400*k,600,-200+400*i,-200+400*k,600
+	next
+	next
+	//上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,-600,600, -580+1191*k,-600,600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,-600,600, -180+400*k,-600,600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,-220+400*k,600, -600,-180+400*k,600
+	d3ribbonto 600,-220+400*k,600,600,-180+400*k,600
+	d3initlineto
+	d3ribbonto -600,-600+1180*k,600,-600, -580+1180*k,600
+	d3ribbonto 600,-600+1180*k,600,600, -580+1180*k,600
+	next
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	
+	for i,0,3
+	e(i)=c(15+i)
+	c(15+i)=c(24+i)
+	c(24+i)=c(33+i)
+	c(33+i)=c(42+i)
+	c(42+i)=e(i)
+	next
+	e(0)=c(47)
+	c(47)=c(53)
+	c(53)=c(51)
+	c(51)=c(45)
+	c(45)=e(0)
+	e(0)=c(46)
+	c(46)=c(50)
+	c(50)=c(52)
+	c(52)=c(48)
+	c(48)=e(0)
+	goto *rt
+	
+	
+*part9_1
+	repeat 2*bunkatu
+	if d!0{
+		r(0)=d3timer()
+	r(1)=r(0)-d
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}}
+	gsel 1,-1
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	
+	p = 3.141592*(cnt+1)/(4*bunkatu)
+	d3setlocal 0,0,0, cos(p),sin(p),0, -sin(p),cos(p),0, 0,0,1
+	
+	d3initlineto
+	d3ribbonto -600,-600,-600, -600,-600,-200
+	for i,0,3
+	colorset c(42+i)
+	d3ribbonto -600,-200+400*i,-600, -600,-200+400*i,-200
+	next
+	//9右奥の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-600,-601+380*k, -600,-600,-580+380*k
+	d3ribbonto -600,600,-601+380*k, -600,600,-580+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600,-600+380*k+400*i,-600,-600,-580+380*k+400*i,-600
+	d3ribbonto -600,-600+380*k+400*i,-200,-600,-580+380*k+400*i,-200
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto 600,600,-600, 600,600,-200
+	for i,0,3
+	colorset c(24+i)
+	d3ribbonto 600,200-400*i,-600, 600,200-400*i,-200
+	next
+	//9左前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,-601+380*k, 600,-600,-580+380*k
+	d3ribbonto 600,600,-601+380*k, 600,600,-580+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,-600,600,-580+380*k+400*i,-600
+	d3ribbonto 600,-600+380*k+400*i,-200,600,-580+380*k+400*i,-200
+	next
+	next
+	
+	d3initlineto
+	d3ribbonto -600,600,-600, -600,600,-200
+	for i,0,3
+	colorset c(15+i)
+	d3ribbonto -200+400*i,600,-600, -200+400*i,600,-200
+	next
+	//9右前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,-601+380*k, -600,600,-580+380*k
+	d3ribbonto 600,600,-601+380*k, 600,600,-580+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,-600,-580+380*k+400*i,600,-600
+	d3ribbonto -600+380*k+400*i,600,-200,-580+380*k+400*i,600,-200
+	next
+	next
+	color
+	d3square x1,x2,x4
+	
+	d3setlocal 0,0,0,1,0,0,0,1,0,0,0,1
+	
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,600-400*k, -600,600,200-400*k
+	for i,0,3
+	colorset c(9+i+3*k)
+	d3ribbonto -200+400*i,600,600-400*k, -200+400*i,600,200-400*k
+	next
+	for i,0,3
+	colorset c(18+i+3*k)
+	d3ribbonto 600,200-400*i,600-400*k, 600,200-400*i,200-400*k
+	next
+	next
+	//８右前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,-200+380*k, -600,600,-180+380*k
+	d3ribbonto 600,600,-200+380*k, 600,600,-180+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,200, -580+380*k+400*i,600,200
+	d3ribbonto -600+380*k+400*i,600,-200,-580+380*k+400*i,600,-200
+	next
+	next
+	//７右前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,200+380*k, -600,600,220+380*k
+	d3ribbonto 600,600,200+380*k, 600,600,220+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,200,-580+380*k+400*i,600,200
+	d3ribbonto -600+380*k+400*i,600,600,-580+380*k+400*i,600,600
+	next
+	next
+	//８左前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,-200+380*k, 600,-600,-180+380*k
+	d3ribbonto 600,600,-200+380*k, 600,600,-180+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,200,600, -580+380*k+400*i,200
+	d3ribbonto 600,-600+380*k+400*i,-200,600,-580+380*k+400*i,-200
+	next
+	next
+	//７左前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,195+380*k, 600,-600,220+380*k
+	d3ribbonto 600,600,195+380*k, 600,600,220+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,200,600,-580+380*k+400*i,200
+	d3ribbonto 600,-600+380*k+400*i,600,600,-580+380*k+400*i,600
+	next
+	next
+	
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,-600+400*k,600, -600,-200+400*k,600
+	for i,0,3
+	colorset c(i+3*k)
+	d3ribbonto -200+400*i,-600+400*k,600,-200+400*i,-200+400*k,600
+	next
+	next
+	//上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,-600,600, -580+1191*k,-600,600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,-600,600, -180+400*k,-600,600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,-220+400*k,600, -600,-180+400*k,600
+	d3ribbonto 600,-220+400*k,600,600,-180+400*k,600
+	d3initlineto
+	d3ribbonto -600,-600+1180*k,600,-600, -580+1180*k,600
+	d3ribbonto 600,-600+1180*k,600,600, -580+1180*k,600
+	next
+	
+	gsel 0,1
+	pos 0,0
+	if b=0:gcopy 1,0,0,500,480
+	if b=1:gcopy 1,0,50,500,380
+	wait a
+	loop
+	
+	for i,0,3
+	e(i)=c(15+i)
+	c(15+i)=c(42+i)
+	c(42+i)=c(33+i)
+	c(33+i)=c(24+i)
+	c(24+i)=e(i)
+	next
+	e(0)=c(47)
+	c(47)=c(45)
+	c(45)=c(51)
+	c(51)=c(53)
+	c(53)=e(0)
+	
+	e(0)=c(46)
+	c(46)=c(48)
+	c(48)=c(52)
+	c(52)=c(50)
+	c(50)=e(0)
+	goto *rt
+	
+*rt
+	return
+	
+	
+#define rol (%1, %2, %3, %4, %5, %6=0, %7=0)  rol %1, %2, %3, %4, %5, %6, %7
+
+
+#global

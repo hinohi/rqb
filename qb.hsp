@@ -1,0 +1,1735 @@
+#include "d3m.hsp"
+#include "rqbkaitenmacro.hsp"
+#pack "step0.txt"
+#pack "step1.txt"
+#pack "step2.txt"
+#pack "step3.txt"
+#pack "step4.txt"
+#pack "step5.txt"
+#pack "step6.txt"
+#pack "free.txt"
+#pack "top.bmp"
+#packopt name "VirRQ"
+	title "Virtual Rubick's Qube"
+	
+	
+	gmode 0
+	
+	dim c,54
+	dim e,10
+	dim r,4
+	
+	x1=600,600,-600,-600
+	x2=600,-600,-600,600
+	x3=200,200,200,200
+	x4=-200,-200,-200,-200
+	
+	buffer 1,500,480,
+	gsel 1,-1
+	pi=3.141592
+	d3setcam cos(pi/4) * 2800, sin(pi/4) * 2800 , 1800,  0, 0, 0
+	cam=0
+	
+	
+*top
+	ind=0
+	tmode=3
+	notesel ntbf
+	noteload "save.dat"
+	color
+	gsel 0,1
+	noteget shire0,0
+	
+	repeat 54
+	s(0)=peek(shire0,cnt)
+	c(cnt)=s(0)-'0'
+	loop
+	
+	noteget shire0,1
+	s(0)=peek(shire0,0)
+	a=s(0)-'0'
+	hayasa=a+1
+	
+	
+	
+	
+	
+	gsel 0
+	picload "top.bmp"
+	pos 260,250
+	objsize 96,24,30
+	button "タイムトライアル",*timemode
+	button "フリーモード",*free
+	button "６面完成講座",*men
+	button "設定",*settei_0
+	button "成績",*ranking
+	stop
+	
+	
+*free
+	cls
+	tmode=3
+	timer=0
+	gosub *btn
+	objsize 100,,30
+	
+	pos 525,394
+	button "基本形マクロ",*kihon
+	button "TOPへ戻る",*top
+	goto *mainloop
+	
+*kihon
+	clrobj
+	color 50,50,50:boxf 500,0,510,480
+	color 255,230,230:boxf 510,0,640,480
+	po=0
+	
+	pos 525,200
+	
+	button "へそキューブ",*f1
+	button "ミニＱinＱ",*f2
+	button "エンゼルフィッシュ",*f3
+	button "６凹ｖ１",*f4
+	button "６凹ｖ２",*f5
+	
+	pos 525,394
+	button "操作盤",*free
+	button "TOPへ戻る",*top
+	
+	notesel ntbf
+	noteload "free.txt"
+	
+	goto *mainloop
+	
+	stop
+	
+*f1
+	clrobj
+	pos 525,424
+	button "TOPへ戻る",*top
+	noteget shire0,0
+	goto *f0
+*f2
+	clrobj
+	pos 525,424
+	button "TOPへ戻る",*top
+	noteget shire0,1
+	goto *f0
+*f3
+	clrobj
+	pos 525,424
+	button "TOPへ戻る",*top
+	noteget shire0,2
+	goto *f0
+*f4
+	clrobj
+	pos 525,424
+	button "TOPへ戻る",*top
+	noteget shire0,3
+	goto *f0
+*f5
+	clrobj
+	pos 525,424
+	button "TOPへ戻る",*top
+	noteget shire0,4
+	goto *f0
+*f0
+	repeat 2
+	s(0)=peek(shire0,po+cnt)
+	r(cnt)=s(0)-'0'
+	loop
+	po+=2
+	
+	if r(0)=0 & r(1)=0 :goto *kihon
+	
+	rol c,1,r(0),r(1),hayasa,,0
+	
+	wait 3
+	
+	goto *f0
+	
+
+	
+	
+*settei_0
+	cls 1
+	pos 50,50
+	mes "・キューブの回転速度"
+	pos 220,50
+	combox a,50,"最速\n速い\n普通\nゆっくり"
+
+	pos 550,400
+	button "戻る",*settei_2
+	stop
+
+*settei_2
+	noteunsel
+	notesel ntbf
+	noteload "save.dat"
+	s(0)=str(a)
+	noteadd s(0),1,1
+	notesave "save.dat"
+	goto *top
+*men
+	cls 1
+	noteunsel
+	ind=0
+	po=0
+	pos 200,100
+	objsize 250,30,40
+	button "Step0　一面の完成",*step0
+	button "Step1　二段目完成",*step1
+	button "Step2　十字をつくる",*step2
+	button "Step3　四隅の配置",*step3
+	button "Step4　四隅の回転",*step4
+	button "Step5　六面の完成",*step5
+	button "+α　パターン作り",*step6
+	
+	pos 450,400
+	objsize 100,24
+	button "TOPへ戻る",*top
+	stop
+*step0
+	clrobj
+	notesel stbf
+	noteload "step0.txt"
+	
+	color 50,50,50:boxf 500,0,510,480
+	color 255,230,230:boxf 510,0,640,480
+	objsize 100,,30
+	pos 525,400
+	button "STEP選択へ戻る",*men
+	goto *note
+*step1
+	clrobj
+	notesel stbf
+	noteload "step1.txt"
+	
+	color 50,50,50:boxf 500,0,510,480
+	color 255,230,230:boxf 510,0,640,480
+	objsize 100,,30
+	pos 525,400
+	button "STEP選択へ戻る",*men
+	goto *note
+	
+*step2
+	clrobj
+	notesel stbf
+	noteload "step2.txt"
+	
+	color 50,50,50:boxf 500,0,510,480
+	color 255,230,230:boxf 510,0,640,480
+	objsize 100,,30
+	pos 525,400
+	button "STEP選択へ戻る",*men
+	goto *note
+	
+*step3
+	clrobj
+	notesel stbf
+	noteload "step3.txt"
+	
+	color 50,50,50:boxf 500,0,510,480
+	color 255,230,230:boxf 510,0,640,480
+	objsize 100,,30
+	pos 525,400
+	button "STEP選択へ戻る",*men
+	goto *note
+	
+*step4
+	clrobj
+	notesel stbf
+	noteload "step4.txt"
+	
+	color 50,50,50:boxf 500,0,510,480
+	color 255,230,230:boxf 510,0,640,480
+	objsize 100,,30
+	pos 525,400
+	button "STEP選択へ戻る",*men
+	goto *note
+	
+*step5
+	clrobj
+	notesel stbf
+	noteload "step5.txt"
+	
+	color 50,50,50:boxf 500,0,510,480
+	color 255,230,230:boxf 510,0,640,480
+	objsize 100,,30
+	pos 525,400
+	button "STEP選択へ戻る",*men
+	goto *note
+	
+*step6
+	clrobj
+	notesel stbf
+	noteload "step6.txt"
+	
+	color 50,50,50:boxf 500,0,510,480
+	color 255,230,230:boxf 510,0,640,480
+	objsize 100,,30
+	pos 525,400
+	button "STEP選択へ戻る",*men
+	goto *note
+	
+
+*note
+	po=0
+	noteget shire0,ind
+	shire=int(shire0)
+	
+	if shire=9:goto *men
+	
+	
+	if shire=1:ind+=1:gsel 0,1:noteget shire0,ind:goto *qbmove
+	if shire=2:ind+=1:kaigyou=0:goto *moji
+	if shire=3:ind+=1:kaigyou+=1:goto *moji
+	if shire=4:ind+=1:goto *wai
+	if shire=5:ind+=1:goto *qbiro
+*qbmove
+	repeat 4
+	s(0)=peek(shire0,po+cnt)
+	r(cnt)=s(0)-'0'
+	loop
+	po+=4
+	
+	if r(0)=0 & r(1)=0 & r(2)=0 & r(3)=0 :ind+=1:goto *note
+	
+	rol c,r(0),r(1),r(2),r(3),1,0
+	
+	wait 3
+	
+	goto *qbmove
+	
+*moji
+	gsel 0,1
+	if kaigyou=0{
+		noteget shire0,ind
+		
+		color 255,255,255:boxf 0,380,500,480
+		pos 10,390
+		font "MSゴシック",19,1
+		color 
+		mes shire0
+	}
+	
+	if kaigyou>0{
+		noteget shire0,ind
+		pos 10,390+kaigyou*24
+		font "MSゴシック",19,1
+		color
+		mes shire0
+	}
+	wait 10
+	ind+=1
+	goto *note
+	
+*wai
+	noteget shire0,ind
+	a=int(shire0)
+	ind+=1
+	wait a
+	goto *note
+	
+*qbiro
+	noteget shire0,ind
+	repeat 54
+	s(cnt)=peek(shire0,cnt)
+	c(cnt)=s(cnt)-'0'
+	loop
+	
+	gsel 1,-1
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600+400*k,600,600, -200+400*k,600,600
+	for i,0,3
+	colorset c(9+i*3+k)
+	d3ribbonto -600+400*k,600,200-400*i, -200+400*k,600,200-400*i
+	next
+	next
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,-600+400*k,600, -600,-200+400*k,600
+	for i,0,3
+	colorset c(i+3*k)
+	d3ribbonto -200+400*i,-600+400*k,600,-200+400*i,-200+400*k,600
+	next
+	for i,0,3
+	colorset c(20+3*i-k)
+	d3ribbonto 600,-600+400*k,200-400*i,600,-200+400*k,200-400*i
+	next
+	next
+	
+	//右手前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,600,-600, -580+1191*k,600,-600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,600,-600, -180+400*k,600,-600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,600,-220+400*k, -600,600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto -600,600,-600+1180*k,-600,600, -580+1180*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1180*k
+	next
+	//左前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+1181*k,-600, 600,-580+1191*k,-600
+	d3ribbonto 600,-601+1181*k,600, 600,-580+1191*k,600
+	d3initlineto
+	d3ribbonto 600,-220+400*k,-600, 600,-180+400*k,-600
+	d3ribbonto 600,-220+400*k,600, 600,-180+400*k,600
+	d3initlineto
+	d3ribbonto 600,-600,-220+400*k,600, -600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto 600,-600,-600+1180*k,600,-600, -580+1185*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1185*k
+	next
+	//上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,-600,600, -580+1191*k,-600,600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,-600,600, -180+400*k,-600,600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,-220+400*k,600, -600,-180+400*k,600
+	d3ribbonto 600,-220+400*k,600,600,-180+400*k,600
+	d3initlineto
+	d3ribbonto -600,-600+1180*k,600,-600, -580+1180*k,600
+	d3ribbonto 600,-600+1180*k,600,600, -580+1180*k,600
+	next
+	gsel 0,1
+	pos 0,0
+	gcopy 1,0,50,500,380
+	
+	
+	ind+=1
+	goto *note
+	
+*timemode
+	cls 3
+	timer=0
+	t1=0
+	t2=0
+	t3=0
+	objsize 350,40
+	
+	noteunsel
+	notesel stbf
+	noteload "save.dat"
+	
+	noteget shire0,2
+	t0=int(shire0)
+	
+	if t0=1{
+	
+	noteget shire0,4
+	repeat 54
+	s(cnt)=peek(shire0,cnt)
+	c(cnt)=s(cnt)-'0'
+	loop
+	
+	noteget shire0,3
+	t3=int(shire0)
+
+	
+	
+	pos 155,140
+	button "通常モード（最初から）",*tt1
+	pos 155,220
+	button "通常モード（続きから）",*timestop
+	pos 155,300
+	button "本気モード（セーブ不可。最初に３分以内でキューブの確認ができる）",*tt2
+	
+	objsize 100,24,30
+	pos 500,400
+	button "セーブデータ削除",*savedel
+	button "TOPへ戻る",*top
+	}
+	
+	
+	if t0=0{
+	pos 155,180
+	button "通常モード（一時停止中にセーブ可能）",*tt1
+	pos 155,260
+	button "本気モード（セーブ不可。最初に３分以内でキューブの確認ができる）",*tt2
+	
+	objsize 100,24
+	pos 500,430
+	button "TOPへ戻る",*top
+	}
+	stop
+	
+*tt1
+	cls
+	color 50,50,50:boxf 500,0,510,480
+	color 255,230,230:boxf 510,0,640,480
+	gosub *haikeinomi
+	
+	f=0
+	t0=0
+	
+	objsize 100,80
+	pos 525,150
+	button "開始",*timestart_1
+	objsize 100,,30
+	pos 525,400
+	button "モード選択",*timemode
+	button "TOPへ戻る",*top
+	gosub *barabara
+	
+	stop
+
+	
+*timestart_1
+	
+	tmode=0
+	han=0
+	
+	if f=0{
+	clrobj
+	color 255
+	font "msゴシック",99,1
+	pos 213,160
+	mes "２"
+	wait 60
+	gosub *haikeinomi
+	wait 10
+	pos 213,160
+	mes "１"
+	wait 60
+	gosub *haikeinomi
+	wait 20
+	pos 70,160
+	mes "スタート"
+	wait 40
+	}
+	
+	gsel 1,-1
+	gosub *qbdraw
+	color
+	font "ＭＳ ゴシック",25
+	d3mes "1",400,-700,700
+	d3mes "2",0,-700,715
+	d3mes "3",-420,-700,700
+	d3mes "4",-700,-400,700
+	d3mes "5",-700,0,700
+	d3mes "6",-700,400,700
+	d3mes "7",-700,700,400
+	d3mes "8",-700,700,0
+	d3mes "9",-700,700,-400
+	gsel 0
+	pos 0,0
+	gcopy 1,0,0,500,480
+	
+	if t0=0:timer=d3timer()-t1
+	if t0=1:timer=d3timer()-t3:t0=0
+	
+	
+*timestart_2
+	cls
+	objsize 100,40
+	pos 525,60
+	button "一時停止",*timestop
+	
+	gosub *btn
+	
+	objsize 100,,30
+	pos 525,400
+	button "モード選択",*timemode
+	button "TOPへ戻る",*top
+
+	goto *mainloop
+	
+*timestop
+	cls
+	color 50,50,50:boxf 500,0,510,480
+	color 255,230,230:boxf 510,0,640,480
+	gosub *haikeinomi
+	
+	if t0=0{
+		t1=d3timer()-timer
+		r(1)=t1
+		r(2)=(r(1)-pmod(r(1),10))/10
+		r(3)=(r(2)-pmod(r(2),100))/100
+		r(4)=(r(3)-pmod(r(3),60))/60
+		r(1)=pmod(r(2),100)
+		r(2)=mod(r(3),60)
+		color 255,255,255:boxf 520,10,630,40
+		color
+		font "msゴシック",20
+		if r(4) ! 0{
+			pos 525,15
+			mes ""+r(4)+"分"+r(2)+"秒"
+		}
+		if r(4)=0{
+			pos 547,15
+			mes ""+r(2)+"秒"+r(1)
+		}
+	}
+	
+	if t0=1{
+		r(2)=(t3-pmod(t3,10))/10
+		r(3)=(r(2)-pmod(r(2),100))/100
+		r(4)=(r(3)-pmod(r(3),60))/60
+		r(1)=pmod(r(2),100)
+		r(2)=pmod(r(3),60)
+		color 255,255,255:boxf 520,10,630,40
+		color
+		font "msゴシック",20
+		if r(4) ! 0{
+			pos 525,15
+			mes ""+r(4)+"分"+r(2)+"秒"
+		}
+		if r(4)=0{
+			pos 547,15
+			mes ""+r(2)+"秒"+r(1)
+		}
+	}
+	
+	
+	f=1
+	
+	
+	objsize 100,60,70
+	pos 525,150
+	button "再開",*timestart_1
+	
+	button "SAVEしてTOPへ",*timesave
+	
+	objsize 100,,30
+	pos 525,400
+	button "モード選択",*timemode
+	button "TOPへ戻る",*top
+	
+	stop
+	
+	
+*timesave
+	noteunsel
+	notesel ntbf
+	noteload "save.dat"
+
+	noteadd "1",2,1
+	
+	
+	noteadd str(t1),3,1
+	
+	shire0=str(c(0))
+	repeat 53
+	shire0 += str(c(cnt+1))
+	loop
+	noteadd shire0,4,1
+	
+	notesave "save.dat"
+	goto *top
+	
+*savedel
+	noteunsel
+	notesel ntbf
+	noteload "save.dat"
+	
+	noteadd "0",2,1
+	noteadd "",3,1
+	noteadd "",4,1
+	
+	notesave "save.dat"
+	goto *timemode
+	
+*tt2
+	cls
+	color 50,50,50:boxf 500,0,510,480
+	color 255,230,230:boxf 510,0,640,480
+	
+	han=0
+	
+	objsize 25,18
+	pos 544,237
+	button "<",*ba1_1
+	pos 527,257
+	button "<",*ba3_1
+	pos 544,277
+	button "<",*ba2_1
+	pos 580,237
+	button ">",*ba2_0
+	pos 597,257
+	button ">",*ba3_0
+	pos 580,277
+	button ">",*ba1_0
+	pos 565,259
+	color
+	font "msゴシック",18
+	mes "全"
+	
+	objsize 100,60
+	pos 525,100
+	button "開始",*tt3
+	objsize 100,,30
+	pos 525,400
+	button "モード選択",*timemode
+	button "TOPへ戻る",*top
+	
+	gosub *barabara
+	gsel 1,-1
+	gosub *qbdraw
+	color
+	font "ＭＳ ゴシック",25
+	d3mes "1",400,-700,700
+	d3mes "2",0,-700,715
+	d3mes "3",-420,-700,700
+	d3mes "4",-700,-400,700
+	d3mes "5",-700,0,700
+	d3mes "6",-700,400,700
+	d3mes "7",-700,700,400
+	d3mes "8",-700,700,0
+	d3mes "9",-700,700,-400
+	gsel 0
+	pos 0,0
+	gcopy 1,0,0,500,480
+	
+	t1=d3timer()
+	goto *count3
+	
+*count3
+	tmode=2
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	repeat
+	r(0)=d3timer()
+	r(1)=r(0)-t1
+	r(0)=180000-r(1)
+	r(2)=(r(0)-pmod(r(0),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	
+	color 255,255,255:boxf 520,10,630,40
+	color
+	
+	if r(4) ! 0{
+		pos 525,15
+		mes "残り"+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0 & r(2)>9{
+		pos 525,15
+		mes "残り　　"+r(2)+"秒"
+	}
+	if r(4)=0 & r(2)<10{
+		pos 525,15
+		mes "残り　　 "+r(2)+"秒"
+	}
+	if r(0)<0 :break
+	wait 10
+	loop
+	
+*tt3
+	tmode=1
+	cls
+	color 50,50,50:boxf 500,0,510,480
+	color 255,230,230:boxf 510,0,640,480
+	gosub *haikeinomi
+	
+	color 255
+	font "msゴシック",99,1
+	pos 213,160
+	mes "２"
+	wait 60
+	gosub *haikeinomi
+	wait 10
+	pos 213,160
+	mes "１"
+	wait 60
+	gosub *haikeinomi
+	wait 20
+	pos 70,160
+	mes "スタート"
+	wait 60
+	
+	gosub *btn
+	objsize 100,,30
+	pos 525,400
+	button "モード選択",*timemode
+	button "TOPへ戻る",*top
+	
+	gsel 1,-1
+	gosub *qbdraw
+	color
+	font "ＭＳ ゴシック",25
+	d3mes "1",400,-700,700
+	d3mes "2",0,-700,715
+	d3mes "3",-420,-700,700
+	d3mes "4",-700,-400,700
+	d3mes "5",-700,0,700
+	d3mes "6",-700,400,700
+	d3mes "7",-700,700,400
+	d3mes "8",-700,700,0
+	d3mes "9",-700,700,-400
+	gsel 0
+	pos 0,0
+	gcopy 1,0,0,500,480
+	
+	timer=d3timer()
+	
+*mainloop
+	stick a
+	if a&128:end
+	
+	if timer!0:gosub *tokei
+	if tmode!3:gosub *hantei:if han=1:goto *kansei
+
+	gsel 1,-1
+	gosub *qbdraw
+	color
+	font "ＭＳ ゴシック",25
+	d3mes "1",400,-700,700
+	d3mes "2",0,-700,715
+	d3mes "3",-420,-700,700
+	d3mes "4",-700,-400,700
+	d3mes "5",-700,0,700
+	d3mes "6",-700,400,700
+	d3mes "7",-700,700,400
+	d3mes "8",-700,700,0
+	d3mes "9",-700,700,-400
+	gsel 0
+	pos 0,0
+	gcopy 1,0,0,500,480
+	
+	gosub *numget
+	if num(1)=1:goto *p1
+	if num(2)=1:goto *p2
+	if num(3)=1:goto *p3
+	if num(4)=1:goto *p4
+	if num(5)=1:goto *p5
+	if num(6)=1:goto *p6
+	if num(7)=1:goto *p7
+	if num(8)=1:goto *p8
+	if num(9)=1:goto *p9
+	if num(0)=1:goto *cam0
+	
+	getkey spc,32
+	if cam=0 & spc=1{
+		if a=1:rol c,0,3,1,hayasa,,timer
+		if a=2:rol c,0,1,1,hayasa,,timer
+		if a=4:rol c,0,3,0,hayasa,,timer
+		if a=8:rol c,0,1,0,hayasa,,timer
+		wait 10
+		goto *mainloop
+	}
+	
+	if cam=0{
+		if a=1:goto *cam2
+		if a=2:rol c,0,1,1,hayasa,,timer
+		if a=4:goto *cam1
+		if a=8:rol c,0,1,0,hayasa,,timer
+		wait 10
+		goto *mainloop
+	}
+	
+	if cam=1{
+		if spc=1:goto *cam0
+		if a=1:goto *cam2
+		if a=2:rol c,0,2,0,hayasa,,timer
+		if a=4:rol c,0,3,0,hayasa,,timer
+		if a=8:rol c,0,2,1,hayasa,,timer
+		wait 10
+		goto *mainloop
+	}
+	
+	if cam=-1{
+		if spc=1:goto *cam0
+		if a=1:rol c,0,3,1,hayasa,,timer
+		if a=2:rol c,0,1,1,hayasa,,timer
+		if a=4:goto *cam1
+		if a=8:rol c,0,1,0,hayasa,,timer
+		wait 10
+		goto *mainloop
+	}
+	
+	
+	
+	wait 10
+	
+	goto *mainloop
+	
+*p1
+	if timer!0:gosub *tokei
+	if tmode!3:gosub *hantei:if han=1:goto *kansei
+	stick a
+	if a=1:rol c,1,1,1,hayasa,,timer:goto *mainloop
+	if a=2:rol c,1,1,1,hayasa,,timer:goto *mainloop
+	if a=4:rol c,1,1,0,hayasa,,timer:goto *mainloop
+	if a=8:rol c,1,1,0,hayasa,,timer:goto *mainloop
+	if a=16:goto *mainloop
+	wait 10
+		
+	gosub *numget
+	if num(2)=1:goto *p2
+	if num(3)=1:goto *p3
+	if num(4)=1:goto *p4
+	if num(5)=1:goto *p5
+	if num(6)=1:goto *p6
+	if num(7)=1:goto *p7
+	if num(8)=1:goto *p8
+	if num(9)=1:goto *p9
+	if num(0)=1:goto *cam0
+	
+	redraw 0
+	gosub *qbdraw
+	color
+	font "ＭＳ ゴシック",20
+	d3mes "2",0,-700,715
+	d3mes "3",-420,-700,700
+	d3mes "4",-700,-400,700
+	d3mes "5",-700,0,700
+	d3mes "6",-700,400,700
+	d3mes "7",-700,700,400
+	d3mes "8",-700,700,0
+	d3mes "9",-700,700,-400
+	color 255,200,0
+	font "ＭＳ ゴシック",30,1
+	d3mes "1",400,-700,700
+	redraw
+	goto *p1
+*p2
+	if timer!0:gosub *tokei
+	if tmode!3:gosub *hantei:if han=1:goto *kansei
+	stick a
+	if a=1:rol c,1,2,1,hayasa,,timer:goto *mainloop
+	if a=2:rol c,1,2,1,hayasa,,timer:goto *mainloop
+	if a=4:rol c,1,2,0,hayasa,,timer:goto *mainloop
+	if a=8:rol c,1,2,0,hayasa,,timer:goto *mainloop
+	if a=16:goto *mainloop
+	wait 10
+		
+	gosub *numget
+	if num(1)=1:goto *p1
+	if num(3)=1:goto *p3
+	if num(4)=1:goto *p4
+	if num(5)=1:goto *p5
+	if num(6)=1:goto *p6
+	if num(7)=1:goto *p7
+	if num(8)=1:goto *p8
+	if num(9)=1:goto *p9
+	if num(0)=1:goto *cam0
+	
+	redraw 0
+	gosub *qbdraw
+	color
+	font "ＭＳ ゴシック",20
+	d3mes "1",400,-700,700
+	d3mes "3",-420,-700,700
+	d3mes "4",-700,-400,700
+	d3mes "5",-700,0,700
+	d3mes "6",-700,400,700
+	d3mes "7",-700,700,400
+	d3mes "8",-700,700,0
+	d3mes "9",-700,700,-400
+	color 255,200,0
+	font "ＭＳ ゴシック",30,1
+	d3mes "2",0,-700,715
+	redraw
+	goto *p2
+*p3
+	if timer!0:gosub *tokei
+	if tmode!3:gosub *hantei:if han=1:goto *kansei
+	stick a
+	if a=1:rol c,1,3,1,hayasa,,timer:goto *mainloop
+	if a=2:rol c,1,3,1,hayasa,,timer:goto *mainloop
+	if a=4:rol c,1,3,0,hayasa,,timer:goto *mainloop
+	if a=8:rol c,1,3,0,hayasa,,timer:goto *mainloop
+	if a=16:goto *mainloop
+	wait 10
+	
+	gosub *numget
+	if num(1)=1:goto *p1
+	if num(2)=1:goto *p2
+	if num(4)=1:goto *p4
+	if num(5)=1:goto *p5
+	if num(6)=1:goto *p6
+	if num(7)=1:goto *p7
+	if num(8)=1:goto *p8
+	if num(9)=1:goto *p9
+	if num(0)=1:goto *cam0
+	
+	redraw 0
+	gosub *qbdraw
+	color
+	font "ＭＳ ゴシック",20
+	d3mes "1",400,-700,700
+	d3mes "2",0,-700,715
+	d3mes "4",-700,-400,700
+	d3mes "5",-700,0,700
+	d3mes "6",-700,400,700
+	d3mes "7",-700,700,400
+	d3mes "8",-700,700,0
+	d3mes "9",-700,700,-400
+	color 255,200,0
+	font "ＭＳ ゴシック",30,1
+	d3mes "3",-420,-700,700
+	redraw
+	
+	goto *p3
+*p4
+	if timer!0:gosub *tokei
+	if tmode!3:gosub *hantei:if han=1:goto *kansei
+	stick a
+	if a=1:rol c,1,4,1,hayasa,,timer:goto *mainloop
+	if a=2:rol c,1,4,0,hayasa,,timer:goto *mainloop
+	if a=4:rol c,1,4,0,hayasa,,timer:goto *mainloop
+	if a=8:rol c,1,4,1,hayasa,,timer:goto *mainloop
+	if a=16:goto *mainloop
+	wait 10
+	
+	gosub *numget
+	if num(1)=1:goto *p1
+	if num(2)=1:goto *p2
+	if num(3)=1:goto *p3
+	if num(5)=1:goto *p5
+	if num(6)=1:goto *p6
+	if num(7)=1:goto *p7
+	if num(8)=1:goto *p8
+	if num(9)=1:goto *p9
+	if num(0)=1:goto *cam0
+	
+	redraw 0
+	gosub *qbdraw
+	color
+	font "ＭＳ ゴシック",20
+	d3mes "1",400,-700,700
+	d3mes "2",0,-700,715
+	d3mes "3",-420,-700,700
+	d3mes "5",-700,0,700
+	d3mes "6",-700,400,700
+	d3mes "7",-700,700,400
+	d3mes "8",-700,700,0
+	d3mes "9",-700,700,-400
+	color 255,200,0
+	font "ＭＳ ゴシック",30,1
+	d3mes "4",-700,-400,700
+	redraw
+	
+	goto *p4
+*p5
+	if timer!0:gosub *tokei
+	if tmode!3:gosub *hantei:if han=1:goto *kansei
+	stick a
+	if a=1:rol c,1,5,1,hayasa,,timer:goto *mainloop
+	if a=2:rol c,1,5,0,hayasa,,timer:goto *mainloop
+	if a=4:rol c,1,5,0,hayasa,,timer:goto *mainloop
+	if a=8:rol c,1,5,1,hayasa,,timer:goto *mainloop
+	if a=16:goto *mainloop
+	wait 10
+	
+	gosub *numget
+	if num(1)=1:goto *p1
+	if num(2)=1:goto *p2
+	if num(3)=1:goto *p3
+	if num(4)=1:goto *p4
+	if num(6)=1:goto *p6
+	if num(7)=1:goto *p7
+	if num(8)=1:goto *p8
+	if num(9)=1:goto *p9
+	if num(0)=1:goto *cam0
+	
+	redraw 0
+	gosub *qbdraw
+	color
+	font "ＭＳ ゴシック",20
+	d3mes "1",400,-700,700
+	d3mes "2",0,-700,715
+	d3mes "3",-420,-700,700
+	d3mes "4",-700,-400,700
+	d3mes "6",-700,400,700
+	d3mes "7",-700,700,400
+	d3mes "8",-700,700,0
+	d3mes "9",-700,700,-400
+	color 255,200,0
+	font "ＭＳ ゴシック",30,1
+	d3mes "5",-700,0,700
+	redraw
+	
+	goto *p5
+*p6
+	if timer!0:gosub *tokei
+	if tmode!3:gosub *hantei:if han=1:goto *kansei
+	stick a
+	if a=1:rol c,1,6,1,hayasa,,timer:goto *mainloop
+	if a=2:rol c,1,6,0,hayasa,,timer:goto *mainloop
+	if a=4:rol c,1,6,0,hayasa,,timer:goto *mainloop
+	if a=8:rol c,1,6,1,hayasa,,timer:goto *mainloop
+	if a=16:goto *mainloop
+	wait 10
+	
+	gosub *numget
+	if num(1)=1:goto *p1
+	if num(2)=1:goto *p2
+	if num(3)=1:goto *p3
+	if num(4)=1:goto *p4
+	if num(5)=1:goto *p5
+	if num(7)=1:goto *p7
+	if num(8)=1:goto *p8
+	if num(9)=1:goto *p9
+	if num(0)=1:goto *cam0
+	
+	redraw 0
+	gosub *qbdraw
+	color
+	font "ＭＳ ゴシック",20
+	d3mes "1",400,-700,700
+	d3mes "2",0,-700,715
+	d3mes "3",-420,-700,700
+	d3mes "4",-700,-400,700
+	d3mes "5",-700,0,700
+	d3mes "7",-700,700,400
+	d3mes "8",-700,700,0
+	d3mes "9",-700,700,-400
+	color 255,200,0
+	font "ＭＳ ゴシック",30,1
+	d3mes "6",-700,400,700
+	redraw
+	
+	goto *p6
+*p7
+	if timer!0:gosub *tokei
+	if tmode!3:gosub *hantei:if han=1:goto *kansei
+	stick a
+	if a=1:rol c,1,7,1,hayasa,,timer:goto *mainloop
+	if a=2:rol c,1,7,0,hayasa,,timer:goto *mainloop
+	if a=4:rol c,1,7,0,hayasa,,timer:goto *mainloop
+	if a=8:rol c,1,7,1,hayasa,,timer:goto *mainloop
+	if a=16:goto *mainloop
+	wait 10
+	
+	gosub *numget
+	if num(1)=1:goto *p1
+	if num(2)=1:goto *p2
+	if num(3)=1:goto *p3
+	if num(4)=1:goto *p4
+	if num(5)=1:goto *p5
+	if num(6)=1:goto *p6
+	if num(8)=1:goto *p8
+	if num(9)=1:goto *p9
+	if num(0)=1:goto *cam0
+	
+	redraw 0
+	gosub *qbdraw
+	color
+	font "ＭＳ ゴシック",20
+	d3mes "1",400,-700,700
+	d3mes "2",0,-700,715
+	d3mes "3",-420,-700,700
+	d3mes "4",-700,-400,700
+	d3mes "5",-700,0,700
+	d3mes "6",-700,400,700
+	d3mes "8",-700,700,0
+	d3mes "9",-700,700,-400
+	color 255,200,0
+	font "ＭＳ ゴシック",30,1
+	d3mes "7",-700,700,400
+	redraw
+	
+	goto *p7
+*p8
+	if timer!0:gosub *tokei
+	if tmode!3:gosub *hantei:if han=1:goto *kansei
+	stick a
+	if a=1:rol c,1,8,1,hayasa,,timer:goto *mainloop
+	if a=2:rol c,1,8,0,hayasa,,timer:goto *mainloop
+	if a=4:rol c,1,8,0,hayasa,,timer:goto *mainloop
+	if a=8:rol c,1,8,1,hayasa,,timer:goto *mainloop
+	if a=16:goto *mainloop
+	wait 10
+	
+	gosub *numget
+	if num(1)=1:goto *p1
+	if num(2)=1:goto *p3
+	if num(3)=1:goto *p3
+	if num(4)=1:goto *p4
+	if num(5)=1:goto *p5
+	if num(6)=1:goto *p6
+	if num(7)=1:goto *p7
+	if num(9)=1:goto *p9
+	if num(0)=1:goto *cam0
+	
+	redraw 0
+	gosub *qbdraw
+	color
+	font "ＭＳ ゴシック",20
+	d3mes "1",400,-700,700
+	d3mes "2",0,-700,715
+	d3mes "3",-420,-700,700
+	d3mes "4",-700,-400,700
+	d3mes "5",-700,0,700
+	d3mes "6",-700,400,700
+	d3mes "7",-700,700,400
+	d3mes "9",-700,700,-400
+	color 255,200,0
+	font "ＭＳ ゴシック",30,1
+	d3mes "8",-700,700,0
+	redraw
+	
+	goto *p8
+*p9
+	if timer!0:gosub *tokei
+	if tmode!3:gosub *hantei:if han=1:goto *kansei
+	stick a
+	if a=1:rol c,1,9,1,hayasa,,timer:goto *mainloop
+	if a=2:rol c,1,9,0,hayasa,,timer:goto *mainloop
+	if a=4:rol c,1,9,0,hayasa,,timer:goto *mainloop
+	if a=8:rol c,1,9,1,hayasa,,timer:goto *mainloop
+	if a=16:goto *mainloop
+	wait 10
+	
+	gosub *numget
+	if num(1)=1:goto *p1
+	if num(2)=1:goto *p2
+	if num(3)=1:goto *p3
+	if num(4)=1:goto *p4
+	if num(5)=1:goto *p5
+	if num(6)=1:goto *p6
+	if num(7)=1:goto *p7
+	if num(8)=1:goto *p8
+	if num(0)=1:goto *cam0
+	
+	redraw 0
+	gosub *qbdraw
+	color
+	font "ＭＳ ゴシック",20
+	d3mes "1",400,-700,700
+	d3mes "2",0,-700,715
+	d3mes "3",-420,-700,700
+	d3mes "4",-700,-400,700
+	d3mes "5",-700,0,700
+	d3mes "6",-700,400,700
+	d3mes "7",-700,700,400
+	d3mes "8",-700,700,0
+	color 255,200,0
+	font "ＭＳ ゴシック",30,1
+	d3mes "9",-700,700,-400
+	redraw
+	
+	goto *p9
+	
+*ba1_0
+	rol c,0,1,0,hayasa,,timer
+	if tmode=2:goto *count3
+	goto *mainloop
+*ba1_1
+	rol c,0,1,1,hayasa,,timer
+	if tmode=2:goto *count3
+	goto *mainloop
+*ba2_0
+	rol c,0,2,0,hayasa,,timer
+	if tmode=2:goto *count3
+	goto *mainloop
+*ba2_1
+	rol c,0,2,1,hayasa,,timer
+	if tmode=2:goto *count3
+	goto *mainloop
+*ba3_0
+	rol c,0,3,0,hayasa,,timer
+	if tmode=2:goto *count3
+	goto *mainloop
+*ba3_1
+	rol c,0,3,1,hayasa,,timer
+	if tmode=2:goto *count3
+	goto *mainloop
+*bp1_0
+	rol c,1,1,0,hayasa,,timer:goto *mainloop
+*bp1_1
+	rol c,1,1,1,hayasa,,timer:goto *mainloop
+*bp2_0
+	rol c,1,2,0,hayasa,,timer:goto *mainloop
+*bp2_1
+	rol c,1,2,1,hayasa,,timer:goto *mainloop
+*bp3_0
+	rol c,1,3,0,hayasa,,timer:goto *mainloop
+*bp3_1
+	rol c,1,3,1,hayasa,,timer:goto *mainloop
+*bp4_0
+	rol c,1,4,0,hayasa,,timer:goto *mainloop
+*bp4_1
+	rol c,1,4,1,hayasa,,timer:goto *mainloop
+*bp5_0
+	rol c,1,5,0,hayasa,,timer:goto *mainloop
+*bp5_1
+	rol c,1,5,1,hayasa,,timer:goto *mainloop
+*bp6_0
+	rol c,1,6,0,hayasa,,timer:goto *mainloop
+*bp6_1
+	rol c,1,6,1,hayasa,,timer:goto *mainloop
+*bp7_0
+	rol c,1,7,0,hayasa,,timer:goto *mainloop
+*bp7_1
+	rol c,1,7,1,hayasa,,timer:goto *mainloop
+*bp8_0
+	rol c,1,8,0,hayasa,,timer:goto *mainloop
+*bp8_1
+	rol c,1,8,1,hayasa,,timer:goto *mainloop
+*bp9_0
+	rol c,1,9,0,hayasa,,timer:goto *mainloop
+*bp9_1
+	rol c,1,9,1,hayasa,,timer:goto *mainloop
+	
+*cam0
+	if cam=0:goto *mainloop
+	repeat 4
+	gsel 1
+	d3setcam cos(pi/4+(0.06*cnt-0.18)*cam) * 2800, sin(pi/4+(0.06*cnt-0.18)*cam) * 2800 , 1800,  0, 0, 0
+	gosub *qbdraw
+	gsel 0
+	pos 0,0
+	gcopy 1,0,0,500,480
+	wait hayasa
+	loop
+	cam=0
+	
+	font "ＭＳ ゴシック",25
+	d3mes "1",400,-700,700
+	d3mes "2",0,-700,715
+	d3mes "3",-420,-700,700
+	d3mes "4",-700,-400,700
+	d3mes "5",-700,0,700
+	d3mes "6",-700,400,700
+	d3mes "7",-700,700,400
+	d3mes "8",-700,700,0
+	d3mes "9",-700,700,-400
+	
+	goto *mainloop
+	
+*cam1
+	if cam=0{
+		repeat 4
+		gsel 1
+		d3setcam cos(pi/4-0.06*cnt) * 2800, sin(pi/4-0.06*cnt) * 2800 , 1800,  0, 0, 0
+		gosub *qbdraw
+		gsel 0
+		pos 0,0
+		gcopy 1,0,0,500,480
+		wait hayasa
+		loop
+		cam=1
+	}
+	if cam=-1{
+		repeat 8
+		gsel 1
+		d3setcam cos(pi/4+0.18-0.06*cnt) * 2800, sin(pi/4+0.18-0.06*cnt) * 2800 , 1800,  0, 0, 0
+		gosub *qbdraw
+		gsel 0
+		pos 0,0
+		gcopy 1,0,0,500,480
+		wait hayasa
+		loop
+		cam=1
+	}
+		font "ＭＳ ゴシック",25
+	d3mes "1",400,-700,700
+	d3mes "2",0,-700,715
+	d3mes "3",-420,-700,700
+	d3mes "4",-700,-400,700
+	d3mes "5",-700,0,700
+	d3mes "6",-700,400,700
+	d3mes "7",-700,700,400
+	d3mes "8",-700,700,0
+	d3mes "9",-700,700,-400
+	goto *mainloop
+*cam2
+	if cam=0{
+		repeat 4
+		gsel 1
+		d3setcam cos(pi/4+0.06*cnt) * 2800, sin(pi/4+0.06*cnt) * 2800 , 1800,  0, 0, 0
+		gosub *qbdraw
+		gsel 0
+		pos 0,0
+		gcopy 1,0,0,500,480
+		wait hayasa
+		loop
+		cam=-1
+	}
+	if cam=1{
+		repeat 8
+		gsel 1
+		d3setcam cos(pi/4-0.18+0.06*cnt) * 2800, sin(pi/4-0.18+0.06*cnt) * 2800 , 1800,  0, 0, 0
+		gosub *qbdraw
+		gsel 0
+		pos 0,0
+		gcopy 1,0,0,500,480
+		wait hayasa
+		loop
+		cam=-1
+	}
+	font "ＭＳ ゴシック",25
+	d3mes "1",400,-700,700
+	d3mes "2",0,-700,715
+	d3mes "3",-420,-700,700
+	d3mes "4",-700,-400,700
+	d3mes "5",-700,0,700
+	d3mes "6",-700,400,700
+	d3mes "7",-700,700,400
+	d3mes "8",-700,700,0
+	d3mes "9",-700,700,-400
+	goto *mainloop
+	
+	
+*ranking
+	cls 1
+	
+	objsize 100,24
+	pos 500,430
+	button "TOPへ戻る",*top
+	
+	color
+	font "msゴシック",50
+	pos 210,10
+	mes "RANKING"
+	
+	font "msゴシック",25
+	pos 120,110
+	mes "本気モード"
+	pos 380,110
+	mes "通常モード"
+	
+	noteunsel
+	notesel ntbf
+	noteload "save.dat"
+	
+	repeat 10
+	noteget shire0,cnt+5
+	e(cnt)=int(shire0)
+	loop
+	
+	font "ms明朝",20,1
+	
+	objsize ,,50
+	
+	for i,0,2
+	pos 100+250*i,160
+	repeat 5
+	mes ""+(cnt+1)+":"
+	loop
+	pos 180+250*i,160
+	repeat 5
+	mes "分"
+	loop
+	pos 230+250*i,160
+	repeat 5
+	mes "秒"
+	loop
+	next
+	
+	for i,0,5
+	
+	r(2)=e(i)
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	pos 145,160+50*i
+	if r(4)>99:mes r(4)
+	if 100>r(4) &r(4)>9:mes "　"+r(4)
+	if 10>r(4)>0:mes "　 "+r(4)
+	if r(4)=0:mes ""
+	pos 205,160+50*i
+	if r(2)<10:mes "0"+r(2)
+	if r(2)>9:mes r(2)
+	pos 254,160+50*i
+	mes r(1)
+	
+	
+	r(2)=e(i+5)
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	pos 395,160+50*i
+	if r(4)>99:mes r(4)
+	if 100>r(4) &r(4)>9:mes "　"+r(4)
+	if 10>r(4)>0:mes "　 "+r(4)
+	if r(4)=0:mes ""
+	pos 455,160+50*i
+	if r(2)<10:mes "0"+r(2)
+	if r(2)>9:mes r(2)
+	pos 504,160+50*i
+	mes r(1)
+	next
+	
+	
+	stop
+	
+*kansei
+	clrobj
+	color 50,50,50:boxf 500,0,510,480
+	color 255,230,230:boxf 510,0,640,480
+	
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}
+	
+	objsize 100,60,80
+	pos 525,150
+	button "ランキングへ",*ranking
+	button "フリーモードへ",*free
+	font "msゴシック",16
+	pos 518,300
+	mes "(成績は残ります)"
+	
+	font "msゴシック",50
+	pos 60,20
+	color 255,,
+	mes "congratulations!"
+	
+	
+	
+	
+	noteunsel
+	notesel ntbf
+	noteload "save.dat"
+	
+	if tmode=0{
+	noteadd "0",2,1
+	noteadd "",3,1
+	noteadd "",4,1
+	}
+	
+	a=0
+	if tmode=0:a=5
+	repeat 5
+	noteget shire0,cnt+a+5
+	e(cnt)=int(shire0)
+	loop
+	
+	t0=r(4)*6000+r(2)*100+r(1)
+	
+	if e(0)>t0 | e(0)=t0:e(5)=t0  :e(6)=e(0):e(7)=e(1):e(8)=e(2):e(9)=e(3)
+	if ((e(1)>t0)or(e(1)=t0)) and (t0>e(0)):e(5)=e(0):e(6)=t0  :e(7)=e(1):e(8)=e(2):e(9)=e(3)
+	if ((e(2)>t0)or(e(2)=t0)) and (t0>e(1)):e(5)=e(0):e(6)=e(1):e(7)=t0  :e(8)=e(2):e(9)=e(3)
+	if ((e(3)>t0)or(e(3)=t0)) and (t0>e(2)):e(5)=e(0):e(6)=e(1):e(7)=e(2):e(8)=t0  :e(9)=e(3)
+	if ((e(4)>t0)or(e(4)=t0)) and (t0>e(3)):e(5)=e(0):e(6)=e(1):e(7)=e(2):e(8)=e(3):e(9)=t0
+	if t0>e(4):e(5)=e(0):e(6)=e(1):e(7)=e(2):e(8)=e(3):e(9)=e(4)
+	
+	repeat 5
+	noteadd str(e(cnt+5)),cnt+a+5,1
+	loop
+	
+	notesave "save.dat"
+	
+	stop
+	
+	
+*btn
+	color 50,50,50:boxf 500,0,510,480
+	color 255,230,230:boxf 510,0,640,480
+	objsize 35,18,20
+	pos 520,200
+	button "<<",*bp1_1
+	button "<<",*bp2_1
+	button "<<",*bp3_1
+	button "<<",*bp4_1
+	button "<<",*bp5_1
+	button "<<",*bp6_1
+	button "<<",*bp7_1
+	button "<<",*bp8_1
+	button "<<",*bp9_1
+	pos 595,200
+	button ">>",*bp1_0
+	button ">>",*bp2_0
+	button ">>",*bp3_0
+	button ">>",*bp4_0
+	button ">>",*bp5_0
+	button ">>",*bp6_0
+	button ">>",*bp7_0
+	button ">>",*bp8_0
+	button ">>",*bp9_0
+	pos 570,202
+	color
+	font "msゴシック",18,1
+	mes "1"
+	mes "2"
+	mes "3"
+	mes "4"
+	mes "5"
+	mes "6"
+	mes "7"
+	mes "8"
+	mes "9"
+	
+	objsize 25,18
+	pos 544,137
+	button "<",*ba1_1
+	pos 527,157
+	button "<",*ba3_1
+	pos 544,177
+	button "<",*ba2_1
+	pos 580,137
+	button ">",*ba2_0
+	pos 597,157
+	button ">",*ba3_0
+	pos 580,177
+	button ">",*ba1_0
+	pos 565,159
+	mes "全"
+	
+	return
+	
+*numget
+	repeat 10
+	getkey num(cnt),48+cnt
+	getkey num(10+cnt),96+cnt
+	loop
+	return
+	
+*qbdraw
+	//キューブ描画
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600+400*k,600,600, -200+400*k,600,600
+	for i,0,3
+	colorset c(9+i*3+k)
+	d3ribbonto -600+400*k,600,200-400*i, -200+400*k,600,200-400*i
+	next
+	next
+	for k,0,3
+	d3initlineto
+	d3ribbonto -600,-600+400*k,600, -600,-200+400*k,600
+	for i,0,3
+	colorset c(i+3*k)
+	d3ribbonto -200+400*i,-600+400*k,600,-200+400*i,-200+400*k,600
+	next
+	for i,0,3
+	colorset c(20+3*i-k)
+	d3ribbonto 600,-600+400*k,200-400*i,600,-200+400*k,200-400*i
+	next
+	next
+	
+	//右手前の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,600,-600, -580+1191*k,600,-600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,600,-600, -180+400*k,600,-600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,600,-220+400*k, -600,600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto -600,600,-600+1180*k,-600,600, -580+1180*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1180*k
+	next
+	//左前面の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-601+1181*k,-600, 600,-580+1191*k,-600
+	d3ribbonto 600,-601+1181*k,600, 600,-580+1191*k,600
+	d3initlineto
+	d3ribbonto 600,-220+400*k,-600, 600,-180+400*k,-600
+	d3ribbonto 600,-220+400*k,600, 600,-180+400*k,600
+	d3initlineto
+	d3ribbonto 600,-600,-220+400*k,600, -600,-180+400*k
+	d3ribbonto 600,600,-220+400*k,600,600,-180+400*k
+	d3initlineto
+	d3ribbonto 600,-600,-600+1180*k,600,-600, -580+1185*k
+	d3ribbonto 600,600,-600+1180*k,600,600, -580+1185*k
+	next
+	//上の黒線
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -601+1181*k,-600,600, -580+1191*k,-600,600
+	d3ribbonto -601+1181*k,600,600, -580+1191*k,600,600
+	d3initlineto
+	d3ribbonto -220+400*k,-600,600, -180+400*k,-600,600
+	d3ribbonto -220+400*k,600,600, -180+400*k,600,600
+	d3initlineto
+	d3ribbonto -600,-220+400*k,600, -600,-180+400*k,600
+	d3ribbonto 600,-220+400*k,600,600,-180+400*k,600
+	d3initlineto
+	d3ribbonto -600,-600+1180*k,600,-600, -580+1180*k,600
+	d3ribbonto 600,-600+1180*k,600,600, -580+1180*k,600
+	next
+	
+	return
+	
+*barabara
+	repeat 20
+	randomize
+	r(0)=rnd(6)+1
+	r(1)=rnd(2)
+	rol c,1,r(0),r(1),1,2
+	loop
+	return
+	
+*haikeinomi
+	gsel 1,-1
+	color 60,120,200:boxf 0,0,500,480
+	color:line 25,262,0,266:line 63,262,0,273:line 101,262,0,284:line 138,262,0,301:line 175,262,0,334:line 213,262,0,432:line 250,262,250,480
+	line 287,262,500,432:line 325,262,500,334:line 362,262,500,301:line 398,262,500,284:line 437,262,500,273:line 475,262,500,266
+	line 0,262,500,262:line 0,266,500,266:line 0,271,500,271:line 0,277,500,277:line 0,285,500,285:line 0,296,500,296
+	line 0,312,500,312:line 0,342,500,342:line 0,410,500,410
+	gsel 0,1
+	pos 0,0
+	gcopy 1,0,0,500,480
+	return
+	
+*tokei
+	r(0)=d3timer()
+	r(1)=r(0)-timer
+	r(2)=(r(1)-pmod(r(1),10))/10
+	r(3)=(r(2)-pmod(r(2),100))/100
+	r(4)=(r(3)-pmod(r(3),60))/60
+	r(1)=pmod(r(2),100)
+	r(2)=mod(r(3),60)
+	color 255,255,255:boxf 520,10,630,40
+	color
+	font "msゴシック",20
+	if r(4) ! 0{
+		pos 525,15
+		mes ""+r(4)+"分"+r(2)+"秒"
+	}
+	if r(4)=0{
+		pos 547,15
+		mes ""+r(2)+"秒"+r(1)
+	}
+	return
+	
+*hantei
+	for k,0,9
+	for i,0,6
+	if c(i*9)!c(i*9+k):return
+	next
+	next
+	han=1
+	return
+	

@@ -1,0 +1,147 @@
+	//9âEëOÇÃçïê¸
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,-601+380*k, -600,600,-580+380*k
+	d3ribbonto 600,600,-601+380*k, 600,600,-580+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,-600,-580+380*k+400*i,600,-600
+	d3ribbonto -600+380*k+400*i,600,-200,-580+380*k+400*i,600,-200
+	next
+	next
+	//ÇWâEëOÇÃçïê¸
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,-200+380*k, -600,600,-180+380*k
+	d3ribbonto 600,600,-200+380*k, 600,600,-180+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,200, -580+380*k+400*i,600,200
+	d3ribbonto -600+380*k+400*i,600,-200,-580+380*k+400*i,600,-200
+	next
+	next
+	//ÇVâEëOÇÃçïê¸
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,600,200+380*k, -600,600,220+380*k
+	d3ribbonto 600,600,200+380*k, 600,600,220+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,600,200,-580+380*k+400*i,600,200
+	d3ribbonto -600+380*k+400*i,600,600,-580+380*k+400*i,600,600
+	next
+	next
+	
+	//9ç∂ëOÇÃçïê¸
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,-601+380*k, 600,-600,-580+380*k
+	d3ribbonto 600,600,-601+380*k, 600,600,-580+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,-600,600,-580+380*k+400*i,-600
+	d3ribbonto 600,-600+380*k+400*i,-200,600,-580+380*k+400*i,-200
+	next
+	next
+	//ÇWç∂ëOÇÃçïê¸
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,-200+380*k, 600,-600,-180+380*k
+	d3ribbonto 600,600,-200+380*k, 600,600,-180+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,200,600, -580+380*k+400*i,200
+	d3ribbonto 600,-600+380*k+400*i,-200,600,-580+380*k+400*i,-200
+	next
+	next
+	//ÇVç∂ëOÇÃçïê¸
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto 600,-600,195+380*k, 600,-600,220+380*k
+	d3ribbonto 600,600,195+380*k, 600,600,220+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,200,600,-580+380*k+400*i,200
+	d3ribbonto 600,-600+380*k+400*i,600,600,-580+380*k+400*i,600
+	next
+	next
+	
+	//9ç∂âúÇÃçïê¸
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-600,-601+380*k, -600,-600,-580+380*k
+	d3ribbonto 600,-600,-601+380*k, 600,-600,-580+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,-600,-600,-580+380*k+400*i,-600,-600
+	d3ribbonto -600+380*k+400*i,-600,-200,-580+380*k+400*i,-600,-200
+	next
+	next
+	//ÇWç∂âúÇÃçïê¸
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-600,-200+380*k, -600,-600,-180+380*k
+	d3ribbonto 600,-600,-200+380*k, 600,-600,-180+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,-600,200, -580+380*k+400*i,-600,200
+	d3ribbonto -600+380*k+400*i,-600,-200,-580+380*k+400*i,-600,-200
+	next
+	next
+	//ÇVç∂âúÇÃçïê¸
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-600,200+380*k, -600,-600,220+380*k
+	d3ribbonto 600,-600,200+380*k, 600,-600,220+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600+380*k+400*i,-600,200,-580+380*k+400*i,-600,200
+	d3ribbonto -600+380*k+400*i,-600,600,-580+380*k+400*i,-600,600
+	next
+	next
+	
+	//9âEâúÇÃçïê¸
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-600,-601+380*k, -600,-600,-580+380*k
+	d3ribbonto -600,600,-601+380*k, -600,600,-580+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600,-600+380*k+400*i,-600,-600,-580+380*k+400*i,-600
+	d3ribbonto -600,-600+380*k+400*i,-200,-600,-580+380*k+400*i,-200
+	next
+	next
+	//ÇWâEâúÇÃçïê¸
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-600,-200+380*k, -600,-600,-180+380*k
+	d3ribbonto -600,600,-200+380*k, -600,600,-180+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto -600,-600+380*k+400*i,200,-600, -580+380*k+400*i,200
+	d3ribbonto -600,-600+380*k+400*i,-200,-600,-580+380*k+400*i,-200
+	next
+	next
+	//ÇVâEâúÇÃçïê¸
+	color 20,20,20
+	for k,0,2
+	d3initlineto
+	d3ribbonto -600,-600,200+380*k, -600,-600,220+380*k
+	d3ribbonto -600,600,200+380*k, -600,600,220+380*k
+	for i,0,3
+	d3initlineto
+	d3ribbonto 600,-600+380*k+400*i,200,600,-580+380*k+400*i,200
+	d3ribbonto 600,-600+380*k+400*i,600,600,-580+380*k+400*i,600
+	next
+	next
